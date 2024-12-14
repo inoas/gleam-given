@@ -1,6 +1,6 @@
 //// This library attempts to make guards:
 ////
-//// - Applicable to `Bool`, `Result` and Option` types.
+//// - Applicable to `Bool`, `Result` and `Option` types.
 //// - Ergonomic to use by providing ways to handle both branches early.
 //// - Expressive by making it easy to read through function names and labels.
 //// - Comprehendable by not having to negate the conditions.
