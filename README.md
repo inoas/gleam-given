@@ -35,9 +35,7 @@ gleam add given@1
 ## Usage
 
 ```gleam
-import given.{
-  given, given_error_in, given_none_in, given_ok_in, given_some_in, not_given,
-}
+import given.{given, not_given}
 import gleam/io
 import gleam/option.{None, Some}
 
@@ -80,7 +78,7 @@ pub fn not_given_example() {
 pub fn given_ok_in_example() {
   {
     let result = Ok("Hello Joe!")
-    use ok_value <- given_ok_in(result, else_return: fn(error_value) {
+    use ok_value <- given.ok_in(result, else_return: fn(error_value) {
       error_value
     })
     // …user handles Ok value here…
@@ -95,7 +93,7 @@ pub fn given_ok_in_example() {
 pub fn given_error_in_example() {
   {
     let result = Error("Memory exceeded!")
-    use error_value <- given_error_in(result, else_return: fn(ok_value) {
+    use error_value <- given.error_in(result, else_return: fn(ok_value) {
       ok_value
     })
     // …user handles Error value here…
@@ -110,7 +108,7 @@ pub fn given_error_in_example() {
 pub fn given_some_in_example() {
   {
     let option = Some("One Penny")
-    use some_value <- given_some_in(option, else_return: fn() { "Woof!" })
+    use some_value <- given.some_in(option, else_return: fn() { "Woof!" })
     // …user handles Some value here…
     some_value
   }
@@ -123,7 +121,7 @@ pub fn given_some_in_example() {
 pub fn given_none_in_example() {
   {
     let option = None
-    use <- given_none_in(option, else_return: fn(some_value) { some_value })
+    use <- given.none_in(option, else_return: fn(some_value) { some_value })
     // …user handles None here…
     "Nothing at all"
   }

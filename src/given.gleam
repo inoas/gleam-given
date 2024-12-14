@@ -66,7 +66,7 @@ pub fn not_given(
 /// "Ok"
 /// ```
 ///
-pub fn given_ok_in(
+pub fn ok_in(
   result result: Result(a, e),
   else_return alternative: fn(a) -> c,
   otherwise consequence: fn(e) -> c,
@@ -85,7 +85,7 @@ pub fn given_ok_in(
 /// "Error"
 /// ```
 ///
-pub fn given_error_in(
+pub fn error_in(
   result result: Result(a, e),
   else_return consequence: fn(a) -> c,
   otherwise alternative: fn(e) -> c,
@@ -104,7 +104,7 @@ pub fn given_error_in(
 /// "Some value"
 /// ```
 ///
-pub fn given_some_in(
+pub fn some_in(
   option option: Option(a),
   else_return consequence: fn() -> c,
   otherwise alternative: fn(a) -> c,
@@ -123,7 +123,7 @@ pub fn given_some_in(
 /// "None"
 /// ```
 ///
-pub fn given_none_in(
+pub fn none_in(
   option option: Option(a),
   else_return consequence: fn(a) -> c,
   otherwise alternative: fn() -> c,
