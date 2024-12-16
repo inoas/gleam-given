@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [3.0.0] - 2024-12-16
+
+- Updated labels and internal code to be more consistent.
+
 ## [2.0.0] - 2024-12-14
 
 - Removed `given` function prefixes from most functions to cut down import

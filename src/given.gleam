@@ -13,11 +13,11 @@ import gleam/option.{type Option, None, Some}
 /// ## Examples
 ///
 /// ```gleam
+/// import given.{given}
 /// let user_understood = case int.random(1) {
 ///   1 -> True
 ///   _ -> False
 /// }
-///
 /// use <- given(user_understood, return: fn() { "Great!" })
 /// // …else handle case where user did not understand here…
 /// "Woof!"
@@ -26,7 +26,7 @@ import gleam/option.{type Option, None, Some}
 pub fn given(
   requirement: Bool,
   return consequence: fn() -> a,
-  otherwise alternative: fn() -> a,
+  else_return alternative: fn() -> a,
 ) -> a {
   case requirement {
     True -> consequence()
@@ -37,6 +37,7 @@ pub fn given(
 /// ## Examples
 ///
 /// ```gleam
+/// import given.{not_given}
 /// let user_understood = case int.random(1) {
 ///   1 -> True
 ///   _ -> False
@@ -50,86 +51,90 @@ pub fn given(
 pub fn not_given(
   requirement: Bool,
   return consequence: fn() -> a,
-  otherwise alternative: fn() -> a,
+  else_return alternative: fn() -> a,
 ) -> a {
-  case !requirement {
-    True -> consequence()
-    False -> alternative()
+  case requirement {
+    False -> consequence()
+    True -> alternative()
   }
 }
 
 /// ## Examples
 ///
 /// ```gleam
-/// use ok_value <- given_ok_in(result, else_return: fn(error_value) { "Error" })
+/// import given
+/// use ok_value <- given.ok_in(result, else_return: fn(error_value) { "Error" })
 /// // …handle Ok value here…
 /// "Ok"
 /// ```
 ///
 pub fn ok_in(
-  result result: Result(a, e),
-  else_return alternative: fn(a) -> c,
-  otherwise consequence: fn(e) -> c,
+  result rslt: Result(a, e),
+  else_return consequence: fn(a) -> c,
+  return alternative: fn(e) -> c,
 ) -> c {
-  case result {
-    Ok(value) -> alternative(value)
-    Error(error) -> consequence(error)
+  case rslt {
+    Ok(val) -> consequence(val)
+    Error(err) -> alternative(err)
   }
 }
 
 /// ## Examples
 ///
 /// ```gleam
-/// use error_value <- given_error_in(result, else_return: fn(ok_value) { "Ok" })
+/// import given
+/// use error_value <- given.error_in(result, else_return: fn(ok_value) { "Ok" })
 /// // …handle Error value here…
 /// "Error"
 /// ```
 ///
 pub fn error_in(
-  result result: Result(a, e),
-  else_return consequence: fn(a) -> c,
-  otherwise alternative: fn(e) -> c,
+  result rslt: Result(a, e),
+  else_return alternative: fn(a) -> c,
+  return consequence: fn(e) -> c,
 ) -> c {
-  case result {
-    Ok(value) -> consequence(value)
-    Error(error) -> alternative(error)
+  case rslt {
+    Error(err) -> consequence(err)
+    Ok(val) -> alternative(val)
   }
 }
 
 /// ## Examples
 ///
 /// ```gleam
-/// use some_value <- given_some_in(option, else_return: fn() { "None" })
+/// import given
+/// use some_value <- given.some_in(option, else_return: fn() { "None" })
 /// // …handle Some value here…
 /// "Some value"
 /// ```
 ///
 pub fn some_in(
-  option option: Option(a),
-  else_return consequence: fn() -> c,
-  otherwise alternative: fn(a) -> c,
+  option optn: Option(a),
+  else_return alternative: fn() -> c,
+  return consequence: fn(a) -> c,
 ) -> c {
-  case option {
-    Some(value) -> alternative(value)
-    None -> consequence()
+  case optn {
+    Some(val) -> consequence(val)
+    None -> alternative()
   }
 }
 
 /// ## Examples
 ///
 /// ```gleam
-/// use none_value <- given_none_in(option, else_return: fn(some_value) { "Some value" })
-/// // …handle None value here…
+/// import given
+/// use <- given.none_in(option, else_return: fn(some_value) { some_value })
+/// // …handle None here…
 /// "None"
 /// ```
 ///
 pub fn none_in(
-  option option: Option(a),
-  else_return consequence: fn(a) -> c,
-  otherwise alternative: fn() -> c,
+  option optn: Option(a),
+  else_return alternative: fn(a) -> c,
+  return consequence: fn() -> c,
 ) -> c {
-  case option {
-    Some(value) -> consequence(value)
-    None -> alternative()
+  case optn {
+    None -> consequence()
+    Some(val) -> alternative(val)
   }
 }
