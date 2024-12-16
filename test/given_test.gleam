@@ -7,9 +7,9 @@ pub fn main() {
   gleeunit.main()
 }
 
-const great = "Great!"
+const great = "Great! ✨"
 
-const woof = "Woof!"
+const woof = "Woof! 🐶"
 
 pub fn given_test() {
   {
@@ -98,6 +98,7 @@ pub fn given_some_in_test() {
     // …user handles Some value here…
     some_value
   }
+  |> should.equal(great)
 
   {
     let option = Some(great)
@@ -105,6 +106,7 @@ pub fn given_some_in_test() {
     // …user handles Some value here…
     some_value
   }
+  |> should.equal(great)
 }
 
 pub fn given_none_in_test() {
@@ -114,10 +116,31 @@ pub fn given_none_in_test() {
     // …user handles None here…
     woof
   }
+  |> should.equal(great)
+
   {
     let option = None
     use <- given.none_in(option, else_return: fn(some_value) { some_value })
     // …user handles None here…
-    woof
+    "None encountered!"
   }
+  |> should.equal("None encountered!")
+}
+
+pub fn given_none_in_2nd_test() {
+  {
+    let option = Some(great)
+    use some_value <- given.none_in(option, return: fn() { "None encountered!" })
+    // …user handles Some value here…
+    some_value
+  }
+  |> should.equal(great)
+
+  {
+    let option = None
+    use some_value <- given.none_in(option, return: fn() { "None encountered!" })
+    // …user handles Some value here…
+    some_value
+  }
+  |> should.equal("None encountered!")
 }
