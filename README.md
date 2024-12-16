@@ -35,8 +35,6 @@ gleam add given@1
 
 ```gleam
 import given.{given, not_given}
-import gleam/io
-import gleam/option.{None, Some}
 
 pub fn given_example() {
   let user_understood = False
@@ -78,6 +76,8 @@ pub fn given_error_in_example() {
   error_value
 }
 
+import gleam/option.{None, Some}
+
 pub fn given_some_in_example() {
   let an_option = Some("One Penny")
   use some_value <- given.some_in(an_option, else_return: fn() { "Woof!" })
@@ -104,6 +104,8 @@ pub fn given_none_in_another_example() {
 
   else_some_value
 }
+
+import gleam/io
 
 pub fn main() {
   given_example() |> io.debug()
