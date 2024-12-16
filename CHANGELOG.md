@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [3.0.2] - 2024-12-16
+
+- Fix readme.
+
 ## [3.0.1] - 2024-12-16
 
 - Added one inverse example for `none_in`.
