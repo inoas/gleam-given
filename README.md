@@ -57,6 +57,33 @@ pub fn main() {
 
   given_none_in_example() |> io.debug()
   // "Nothing at all"
+
+  given_none_in_another_example() |> io.debug()
+  // "None here"
+}
+
+import given.{given, not_given}
+import gleam/io
+import gleam/option.{None, Some}
+
+pub fn main() {
+  given_example() |> io.debug()
+  // "🤯 Woof!"
+
+  not_given_example() |> io.debug()
+  // "👌 Access granted..."
+
+  given_ok_in_example() |> io.debug()
+  // "Hello Joe!"
+
+  given_error_in_example() |> io.debug()
+  // "Memory exhausted!"
+
+  given_some_in_example() |> io.debug()
+  // "One Penny"
+
+  given_none_in_example() |> io.debug()
+  // "Nothing at all"
 }
 
 pub fn given_example() {
@@ -115,6 +142,15 @@ pub fn given_none_in_example() {
   // …handle None here…
 
   "Nothing at all"
+}
+
+pub fn given_none_in_another_example() {
+  let an_option = None
+  use else_some_value <- given.none_in(an_option, return: fn() { "None here" })
+
+  // …handle Some value here…
+
+  else_some_value
 }
 ```
 

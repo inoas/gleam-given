@@ -138,9 +138,11 @@ pub fn given_none_in_2nd_test() {
 
   {
     let option = None
-    use some_value <- given.none_in(option, return: fn() { "None encountered!" })
+    use else_some_value <- given.none_in(option, return: fn() {
+      "None encountered!"
+    })
     // …user handles Some value here…
-    some_value
+    else_some_value
   }
   |> should.equal("None encountered!")
 }

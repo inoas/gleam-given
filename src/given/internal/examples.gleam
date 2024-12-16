@@ -79,3 +79,12 @@ pub fn given_none_in_example() {
 
   "Nothing at all"
 }
+
+pub fn given_none_in_another_example() {
+  let an_option = None
+  use else_some_value <- given.none_in(an_option, return: fn() { "None here" })
+
+  // …handle Some value here…
+
+  else_some_value
+}
