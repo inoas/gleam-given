@@ -2,26 +2,6 @@ import given.{given, not_given}
 import gleam/io
 import gleam/option.{None, Some}
 
-pub fn main() {
-  given_example() |> io.debug()
-  // "🤯 Woof!"
-
-  not_given_example() |> io.debug()
-  // "👌 Access granted..."
-
-  given_ok_in_example() |> io.debug()
-  // "Hello Joe!"
-
-  given_error_in_example() |> io.debug()
-  // "Memory exhausted!"
-
-  given_some_in_example() |> io.debug()
-  // "One Penny"
-
-  given_none_in_example() |> io.debug()
-  // "Nothing at all"
-}
-
 pub fn given_example() {
   let user_understood = False
   use <- given(user_understood, return: fn() { "💡 Bright!" })
@@ -87,4 +67,24 @@ pub fn given_none_in_another_example() {
   // …handle Some value here…
 
   else_some_value
+}
+
+pub fn main() {
+  given_example() |> io.debug()
+  // "🤯 Woof!"
+
+  not_given_example() |> io.debug()
+  // "👌 Access granted..."
+
+  given_ok_in_example() |> io.debug()
+  // "Hello Joe!"
+
+  given_error_in_example() |> io.debug()
+  // "Memory exhausted!"
+
+  given_some_in_example() |> io.debug()
+  // "One Penny"
+
+  given_none_in_example() |> io.debug()
+  // "Nothing at all"
 }

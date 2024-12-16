@@ -25,7 +25,6 @@
 <br>
 <br>
 
-
 ## Installation
 
 ```sh
@@ -38,29 +37,6 @@ gleam add given@1
 import given.{given, not_given}
 import gleam/io
 import gleam/option.{None, Some}
-
-pub fn main() {
-  given_example() |> io.debug()
-  // "🤯 Woof!"
-
-  not_given_example() |> io.debug()
-  // "👌 Access granted..."
-
-  given_ok_in_example() |> io.debug()
-  // "Hello Joe!"
-
-  given_error_in_example() |> io.debug()
-  // "Memory exhausted!"
-
-  given_some_in_example() |> io.debug()
-  // "One Penny"
-
-  given_none_in_example() |> io.debug()
-  // "Nothing at all"
-
-  given_none_in_another_example() |> io.debug()
-  // "None here"
-}
 
 pub fn given_example() {
   let user_understood = False
@@ -128,6 +104,26 @@ pub fn given_none_in_another_example() {
 
   else_some_value
 }
+
+pub fn main() {
+  given_example() |> io.debug()
+  // "🤯 Woof!"
+
+  not_given_example() |> io.debug()
+  // "👌 Access granted..."
+
+  given_ok_in_example() |> io.debug()
+  // "Hello Joe!"
+
+  given_error_in_example() |> io.debug()
+  // "Memory exhausted!"
+
+  given_some_in_example() |> io.debug()
+  // "One Penny"
+
+  given_none_in_example() |> io.debug()
+  // "Nothing at all"
+}
 ```
 
 Further documentation can be found at <https://hexdocs.pm/given>.
@@ -137,4 +133,10 @@ Further documentation can be found at <https://hexdocs.pm/given>.
 ```sh
 gleam run   # Run the project
 gleam test  # Run the tests
+```
+
+### Run examples
+
+```sh
+gleam run --module given/internal/examples
 ```
