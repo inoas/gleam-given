@@ -70,8 +70,8 @@ pub fn not_given(
 ///
 pub fn ok_in(
   result rslt: Result(a, e),
-  else_return consequence: fn(a) -> c,
-  return alternative: fn(e) -> c,
+  else_return alternative: fn(e) -> c,
+  return consequence: fn(a) -> c,
 ) -> c {
   case rslt {
     Ok(val) -> consequence(val)

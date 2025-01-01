@@ -5,6 +5,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [4.0.0] - 2025-01-01
+
+Bugfix release of 3.0.2 but containing breaking change:
+
+- `given.ok_in` has the labels switched, before:
+
+   ```gleam
+   pub fn ok_in(
+     result rslt: Result(a, e),
+     else_return consequence: fn(a) -> c,
+     return alternative: fn(e) -> c,
+   ) -> c
+   ```
+
+   after:
+
+   ```gleam
+   pub fn ok_in(
+     result rslt: Result(a, e),
+     else_return alternative: fn(e) -> c,
+     return consequence: fn(a) -> c,
+   ) -> c
+   ```
+
 ## [3.0.2] - 2024-12-16
 
 - Fix readme.

@@ -69,6 +69,24 @@ pub fn given_ok_in_test() {
   |> should.equal(woof)
 }
 
+pub fn given_ok_in_unusual_usage_test() {
+  {
+    let result = Ok(great)
+    use error_value <- given.ok_in(result, return: fn(ok_value) { ok_value })
+    // …user handles Error value here…
+    error_value
+  }
+  |> should.equal(great)
+
+  {
+    let result = Error(woof)
+    use error_value <- given.ok_in(result, return: fn(ok_value) { ok_value })
+    // …user handles Error value here…
+    error_value
+  }
+  |> should.equal(woof)
+}
+
 pub fn given_error_in_test() {
   {
     let result = Error(woof)
