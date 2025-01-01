@@ -21,8 +21,8 @@ pub fn not_given_example() {
 
 pub fn given_ok_in_example() {
   let a_result = Ok("Hello Joe!")
-  use ok_value <- given.ok_in(a_result, else_return: fn(error_value) {
-    error_value
+  use ok_value <- given.ok_in(result: a_result, else_return: fn(_error_value) {
+    "Error value"
   })
 
   // …handle Ok value here…
@@ -32,8 +32,8 @@ pub fn given_ok_in_example() {
 
 pub fn given_error_in_example() {
   let a_result = Error("Memory exhausted!")
-  use error_value <- given.error_in(a_result, else_return: fn(ok_value) {
-    ok_value
+  use error_value <- given.error_in(a_result, else_return: fn(_ok_value) {
+    "Ok value"
   })
   // …handle Error value here…
 
@@ -53,40 +53,40 @@ pub fn given_some_in_example() {
 
 pub fn given_none_in_example() {
   let an_option = None
-  use <- given.none_in(an_option, else_return: fn(some_value) { some_value })
+  use <- given.none_in(an_option, else_return: fn(_some_value) { "Some value" })
 
   // …handle None here…
 
-  "Nothing at all"
+  "None, e.g. Nothing at all"
 }
 
 pub fn given_none_in_another_example() {
   let an_option = None
-  use else_some_value <- given.none_in(an_option, return: fn() { "None here" })
+  use _else_some_value <- given.none_in(an_option, return: fn() { "None here" })
 
   // …handle Some value here…
 
-  else_some_value
+  "Some value here"
 }
 
 import gleam/io
 
 pub fn main() {
-  given_example() |> io.debug()
+  given_example() |> io.debug
   // "🤯 Woof!"
 
-  not_given_example() |> io.debug()
+  not_given_example() |> io.debug
   // "👌 Access granted..."
 
-  given_ok_in_example() |> io.debug()
+  given_ok_in_example() |> io.debug
   // "Hello Joe!"
 
-  given_error_in_example() |> io.debug()
+  given_error_in_example() |> io.debug
   // "Memory exhausted!"
 
-  given_some_in_example() |> io.debug()
+  given_some_in_example() |> io.debug
   // "One Penny"
 
-  given_none_in_example() |> io.debug()
-  // "Nothing at all"
+  given_none_in_example() |> io.debug
+  // "None, e.g. Nothing at all"
 }

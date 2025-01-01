@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [4.0.1] - 2025-01-01
+
+- Improved unit tests.
+- Improved examples.
+- Improved readme.
+
 ## [4.0.0] - 2025-01-01
 
 Bugfix release of 3.0.2 but containing breaking change:
