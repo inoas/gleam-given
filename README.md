@@ -28,7 +28,7 @@
 ## Installation
 
 ```sh
-gleam add given@1
+gleam add given
 ```
 
 ## Usage
