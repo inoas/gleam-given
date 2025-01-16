@@ -1,12 +1,4 @@
-import given.{that as given}
-
-pub fn given_example() {
-  let user_understood = False
-
-  use <- given(user_understood, return: fn() { "💡 Bright!" })
-  // …else handle case where user did not understand here…
-  "🤯 Woof!"
-}
+import given
 
 pub fn given_that_example() {
   let user_understood = True
@@ -243,9 +235,6 @@ pub fn given_all_none_example() {
 import gleam/io
 
 pub fn main() {
-  given_example() |> io.debug
-  // "🤯 Woof!"
-
   given_that_example() |> io.debug
   // "💡 Bright!"
 
