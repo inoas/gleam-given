@@ -241,7 +241,7 @@ pub fn all_ok(
 
   case errors {
     [] -> consequence(oks)
-    _some_errors -> alternative(oks, errors)
+    _non_zero_errors -> alternative(oks, errors)
   }
 }
 
@@ -256,7 +256,7 @@ pub fn any_ok(
 
   case oks {
     [] -> alternative(errors)
-    _some_errors -> consequence(oks, errors)
+    _non_zero_oks -> consequence(oks, errors)
   }
 }
 
@@ -302,7 +302,7 @@ pub fn all_error(
 
   case oks {
     [] -> alternative(oks, errors)
-    _some_errors -> consequence(errors)
+    _non_zero_oks -> consequence(errors)
   }
 }
 
@@ -317,7 +317,7 @@ pub fn any_error(
 
   case errors {
     [] -> alternative(oks, errors)
-    _some_errors -> consequence(errors)
+    _non_zero_errors -> consequence(errors)
   }
 }
 
@@ -365,7 +365,7 @@ pub fn all_some(
 
   case nones_count {
     0 -> consequence(somes)
-    _plus_1_nones -> alternative(somes, nones_count)
+    _positive_none_count -> alternative(somes, nones_count)
   }
 }
 
@@ -380,7 +380,7 @@ pub fn any_some(
 
   case somes {
     [] -> alternative(nones_count)
-    _somes -> consequence(somes, nones_count)
+    _non_zero_somes -> consequence(somes, nones_count)
   }
 }
 
@@ -428,7 +428,7 @@ pub fn all_none(
 
   case somes {
     [] -> consequence()
-    _somes -> alternative(somes, nones_count)
+    _non_zero_somes -> alternative(somes, nones_count)
   }
 }
 
@@ -443,7 +443,7 @@ pub fn any_none(
 
   case nones_count {
     0 -> alternative(somes)
-    _plus_1_nones -> consequence(somes, nones_count)
+    _positive_none_count -> consequence(somes, nones_count)
   }
 }
 
