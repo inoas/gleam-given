@@ -455,8 +455,8 @@ pub fn any_none(
 /// ## Examples
 ///
 /// ```gleam
-/// option_partition([Some(1), None, None, Some(2)])
-/// // -> #([2, 1], [None, None])
+/// option_partition([Some("Wibble"), None, None, Some("Wobble")])
+/// // -> #(["Wibble", "Wobble"], 2)
 /// ```
 ///
 fn option_partition(options: List(Option(a))) -> #(List(a), Int) {
