@@ -373,13 +373,13 @@ pub fn empty(
 ///
 /// let list = []
 ///
-/// use <- given.not_empty(list, else_return: fn() { "Empty" })
+/// use <- given.non_empty(list, else_return: fn() { "Empty" })
 ///
 /// // …handle non-empty list here…
 /// "Not empty"
 /// ```
 ///
-pub fn not_empty(
+pub fn non_empty(
   list list: List(a),
   else_return alternative: fn() -> b,
   return consequence: fn() -> b,

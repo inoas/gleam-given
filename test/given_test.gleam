@@ -154,6 +154,14 @@ pub fn when_not_test() {
   // |> should.equal("Not an Admin")
 }
 
+pub fn empty_test() {
+  todo
+}
+
+pub fn non_empty_test() {
+  todo
+}
+
 pub fn ok_test() {
   {
     let result = Ok(great)
@@ -176,6 +184,14 @@ pub fn ok_test() {
     ok_value
   }
   |> should.equal(woof)
+}
+
+pub fn any_ok_test() {
+  todo
+}
+
+pub fn all_ok_test() {
+  todo
 }
 
 pub fn error_test() {
@@ -204,6 +220,14 @@ pub fn error_test() {
   |> should.equal(great)
 }
 
+pub fn any_error_test() {
+  todo
+}
+
+pub fn all_error_test() {
+  todo
+}
+
 pub fn some_test() {
   {
     let option = Some(great)
@@ -226,6 +250,14 @@ pub fn some_test() {
   |> should.equal(great)
 }
 
+pub fn any_some_test() {
+  todo
+}
+
+pub fn all_some_test() {
+  todo
+}
+
 pub fn none_test() {
   {
     let option = Some(great)
@@ -246,4 +278,12 @@ pub fn none_test() {
     "None encountered!"
   }
   |> should.equal("None encountered!")
+}
+
+pub fn any_none_test() {
+  todo
+}
+
+pub fn all_none_test() {
+  todo
 }

@@ -28,7 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   - `given.when` to allow for more complex lazy conditions.
   - `given.when_not` to allow for more complex lazy conditions.
   - `given.empty` to check if a list is empty.
-  - `given.not_empty` to check if a list is not empty.
+  - `given.non_empty` to check if a list is not empty.
   - `given.all_ok` to check if all results are ok.
   - `given.any_ok` to check if any results are ok.
   - `given.all_error` to check if all results are errors.
