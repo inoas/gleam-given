@@ -8,6 +8,7 @@
 ////   `bool.lazy_guard`.
 ////
 
+import given/lib/optionx
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
@@ -42,9 +43,9 @@ import gleam/result
 ///
 pub fn that(
   the_case requirement: Bool,
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirement {
     True -> consequence()
     False -> alternative()
@@ -65,9 +66,9 @@ pub fn that(
 ///
 pub fn any(
   true_of requirements: List(Bool),
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirements |> list.any(fn(v) { v == True }) {
     True -> consequence()
     False -> alternative()
@@ -88,9 +89,9 @@ pub fn any(
 ///
 pub fn all(
   true_of requirements: List(Bool),
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirements |> list.all(fn(v) { v == True }) {
     True -> consequence()
     False -> alternative()
@@ -126,9 +127,9 @@ pub fn all(
 /// ```
 pub fn not(
   the_case requirement: Bool,
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirement {
     False -> consequence()
     True -> alternative()
@@ -159,9 +160,9 @@ pub fn not(
 ///
 pub fn not_any(
   true_of requirements: List(Bool),
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirements |> list.any(fn(v) { v == True }) {
     False -> consequence()
     True -> alternative()
@@ -191,12 +192,51 @@ pub fn not_any(
 ///
 pub fn not_all(
   true_of requirements: List(Bool),
-  return consequence: fn() -> a,
-  else_return alternative: fn() -> a,
-) -> a {
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
   case requirements |> list.all(fn(v) { v == True }) {
     False -> consequence()
     True -> alternative()
+  }
+}
+
+// TODO: Examples
+//
+pub fn where(
+  is condition: fn() -> Bool,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case condition() {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+// TODO: Examples
+//
+pub fn empty(
+  list list: List(a),
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
+  case list {
+    [] -> consequence()
+    _not_empty -> alternative()
+  }
+}
+
+// TODO: Examples
+//
+pub fn not_empty(
+  list list: List(a),
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
+  case list {
+    [] -> alternative()
+    _not_empty -> consequence()
   }
 }
 
@@ -221,9 +261,9 @@ pub fn not_all(
 /// ```
 pub fn ok(
   in rslt: Result(a, e),
-  else_return alternative: fn(e) -> c,
-  return consequence: fn(a) -> c,
-) -> c {
+  else_return alternative: fn(e) -> b,
+  return consequence: fn(a) -> b,
+) -> b {
   case rslt {
     Ok(val) -> consequence(val)
     Error(err) -> alternative(err)
@@ -234,9 +274,9 @@ pub fn ok(
 //
 pub fn all_ok(
   of rslts: List(Result(a, e)),
-  else_return alternative: fn(List(a), List(e)) -> c,
-  return consequence: fn(List(a)) -> c,
-) -> c {
+  else_return alternative: fn(List(a), List(e)) -> b,
+  return consequence: fn(List(a)) -> b,
+) -> b {
   let #(oks, errors) = rslts |> result.partition
 
   case errors {
@@ -249,9 +289,9 @@ pub fn all_ok(
 //
 pub fn any_ok(
   of rslts: List(Result(a, e)),
-  else_return alternative: fn(List(e)) -> c,
-  return consequence: fn(List(a), List(e)) -> c,
-) -> c {
+  else_return alternative: fn(List(e)) -> b,
+  return consequence: fn(List(a), List(e)) -> b,
+) -> b {
   let #(oks, errors) = rslts |> result.partition
 
   case oks {
@@ -282,9 +322,9 @@ pub fn any_ok(
 ///
 pub fn error(
   in rslt: Result(a, e),
-  else_return alternative: fn(a) -> c,
-  return consequence: fn(e) -> c,
-) -> c {
+  else_return alternative: fn(a) -> b,
+  return consequence: fn(e) -> b,
+) -> b {
   case rslt {
     Error(err) -> consequence(err)
     Ok(val) -> alternative(val)
@@ -295,9 +335,9 @@ pub fn error(
 //
 pub fn all_error(
   of rslts: List(Result(a, e)),
-  else_return alternative: fn(List(a), List(e)) -> c,
-  return consequence: fn(List(e)) -> c,
-) -> c {
+  else_return alternative: fn(List(a), List(e)) -> b,
+  return consequence: fn(List(e)) -> b,
+) -> b {
   let #(oks, errors) = rslts |> result.partition
 
   case oks {
@@ -310,9 +350,9 @@ pub fn all_error(
 //
 pub fn any_error(
   of rslts: List(Result(a, e)),
-  else_return alternative: fn(List(a), List(e)) -> c,
-  return consequence: fn(List(e)) -> c,
-) -> c {
+  else_return alternative: fn(List(a), List(e)) -> b,
+  return consequence: fn(List(e)) -> b,
+) -> b {
   let #(oks, errors) = rslts |> result.partition
 
   case errors {
@@ -345,9 +385,9 @@ pub fn any_error(
 ///
 pub fn some(
   in optn: Option(a),
-  else_return alternative: fn() -> c,
-  return consequence: fn(a) -> c,
-) -> c {
+  else_return alternative: fn() -> b,
+  return consequence: fn(a) -> b,
+) -> b {
   case optn {
     Some(val) -> consequence(val)
     None -> alternative()
@@ -358,10 +398,10 @@ pub fn some(
 //
 pub fn all_some(
   of optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> c,
-  return consequence: fn(List(a)) -> c,
-) -> c {
-  let #(somes, nones_count) = optns |> option_partition
+  else_return alternative: fn(List(a), Int) -> b,
+  return consequence: fn(List(a)) -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
 
   case nones_count {
     0 -> consequence(somes)
@@ -373,10 +413,10 @@ pub fn all_some(
 //
 pub fn any_some(
   of optns: List(Option(a)),
-  else_return alternative: fn(Int) -> c,
-  return consequence: fn(List(a), Int) -> c,
-) -> c {
-  let #(somes, nones_count) = optns |> option_partition
+  else_return alternative: fn(Int) -> b,
+  return consequence: fn(List(a), Int) -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
 
   case somes {
     [] -> alternative(nones_count)
@@ -408,9 +448,9 @@ pub fn any_some(
 ///
 pub fn none(
   in optn: Option(a),
-  else_return alternative: fn(a) -> c,
-  return consequence: fn() -> c,
-) -> c {
+  else_return alternative: fn(a) -> b,
+  return consequence: fn() -> b,
+) -> b {
   case optn {
     None -> consequence()
     Some(val) -> alternative(val)
@@ -421,10 +461,10 @@ pub fn none(
 //
 pub fn all_none(
   of optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> c,
-  return consequence: fn() -> c,
-) -> c {
-  let #(somes, nones_count) = optns |> option_partition
+  else_return alternative: fn(List(a), Int) -> b,
+  return consequence: fn() -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
 
   case somes {
     [] -> consequence()
@@ -436,37 +476,13 @@ pub fn all_none(
 //
 pub fn any_none(
   of optns: List(Option(a)),
-  else_return alternative: fn(List(a)) -> c,
-  return consequence: fn(List(a), Int) -> c,
-) -> c {
-  let #(somes, nones_count) = optns |> option_partition
+  else_return alternative: fn(List(a)) -> b,
+  return consequence: fn(List(a), Int) -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
 
   case nones_count {
     0 -> alternative(somes)
     _positive_none_count -> consequence(somes, nones_count)
-  }
-}
-
-/// Given a list of options, returns a pair where the first element is a list
-/// of all the values inside `Some` and the second element is a list with all
-/// the values None values. The values in both lists appear in reverse order
-/// with respect to their position in the original list of options.
-///
-/// ## Examples
-///
-/// ```gleam
-/// option_partition([Some("Wibble"), None, None, Some("Wobble")])
-/// // -> #(["Wibble", "Wobble"], 2)
-/// ```
-///
-fn option_partition(options: List(Option(a))) -> #(List(a), Int) {
-  option_partition_loop(options, [], 0)
-}
-
-fn option_partition_loop(options: List(Option(a)), somes: List(a), nones: Int) {
-  case options {
-    [] -> #(somes, nones)
-    [Some(a), ..rest] -> option_partition_loop(rest, [a, ..somes], nones)
-    [None, ..rest] -> option_partition_loop(rest, somes, nones + 1)
   }
 }
