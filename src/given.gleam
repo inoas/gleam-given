@@ -586,6 +586,9 @@ pub fn all_error(
   }
 }
 
+/// Checks if the option is `Some` and runs the consequence if it is, else runs
+/// the alternative.
+///
 /// ## Examples
 ///
 /// ```gleam
@@ -683,6 +686,9 @@ pub fn all_some(
   }
 }
 
+/// Checks if the option is `None` and runs the consequence if it is, else runs
+/// the alternative.
+///
 /// ## Examples
 ///
 /// ```gleam
