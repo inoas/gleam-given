@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [5.0.1] - 2025-01-16
+
+- Fix deps constraint in `gleam.toml`.
+
 ## [5.0.0] - 2025-01-16
 
 - Removed duplicate functions:
