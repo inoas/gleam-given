@@ -8,7 +8,7 @@
 ////   `bool.lazy_guard`.
 ////
 
-import given/lib/optionx
+import given/internal/lib/optionx
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
@@ -428,6 +428,36 @@ pub fn ok(
   }
 }
 
+/// Checks if any of the results are `Ok` and runs the consequence -  passing in
+/// the `Ok` and `Error` values - if they are, else runs the alternative passing
+/// in all `Error` values.
+///
+/// ## Examples
+///
+/// ```gleam
+/// import given
+///
+/// let results = [Ok("Great"), Error("Bad")]
+///
+/// use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) { "All Errors" })
+///
+/// // …handle at least some OKs here…
+/// "At least some OKs"
+/// ```
+///
+pub fn any_ok(
+  in rslts: List(Result(a, e)),
+  else_return alternative: fn(List(e)) -> b,
+  return consequence: fn(List(a), List(e)) -> b,
+) -> b {
+  let #(oks, errors) = rslts |> result.partition
+
+  case oks {
+    [] -> alternative(errors)
+    _non_zero_oks -> consequence(oks, errors)
+  }
+}
+
 /// Checks if all of the results are `Ok` and runs the consequence - passing in
 /// the `Ok` values - if they are, else runs the alternative passing in all
 /// `Ok` and `Error` values.
@@ -455,36 +485,6 @@ pub fn all_ok(
   case errors {
     [] -> consequence(oks)
     _non_zero_errors -> alternative(oks, errors)
-  }
-}
-
-/// Checks if any of the results are `Ok` and runs the consequence -  passing in
-/// the `Ok` and `Error` values - if they are, else runs the alternative passing
-/// in all `Error` values.
-///
-/// ## Examples
-///
-/// ```gleam
-/// import given
-///
-/// let results = [Ok("Great"), Error("Bad")]
-///
-/// use <- given.any_ok(in: results, else_return: fn(errors) { "All Errors" })
-///
-/// // …handle at least some OKs here…
-/// "At least some OKs"
-/// ```
-///
-pub fn any_ok(
-  in rslts: List(Result(a, e)),
-  else_return alternative: fn(List(e)) -> b,
-  return consequence: fn(List(a), List(e)) -> b,
-) -> b {
-  let #(oks, errors) = rslts |> result.partition
-
-  case oks {
-    [] -> alternative(errors)
-    _non_zero_oks -> consequence(oks, errors)
   }
 }
 
@@ -526,6 +526,36 @@ pub fn error(
   }
 }
 
+/// Checks if any of the results are `Error` and runs the consequence - passing
+/// in the `Ok` and `Error` values - if they are, else runs the alternative
+/// passing in all `Ok` values.
+///
+/// ## Examples
+///
+/// ```gleam
+/// import given
+///
+/// let results = [Ok("Great"), Error("Bad")]
+///
+/// use _oks, _errors <- given.any_error(in: results, else_return: fn(_oks) { "Only OKs" })
+///
+/// // …handle at least some Errors here…
+/// "At least some Errors"
+/// ```
+///
+pub fn any_error(
+  in rslts: List(Result(a, e)),
+  else_return alternative: fn(List(a)) -> b,
+  return consequence: fn(List(a), List(e)) -> b,
+) -> b {
+  let #(oks, errors) = rslts |> result.partition
+
+  case errors {
+    [] -> alternative(oks)
+    _non_zero_errors -> consequence(oks, errors)
+  }
+}
+
 /// Checks if all of the results are `Error` and runs the consequence - passing
 /// in the `Error` values - if they are, else runs the alternative passing in
 /// all `Ok` and `Error` values.
@@ -537,7 +567,7 @@ pub fn error(
 ///
 /// let results = [Ok("Great"), Error("Bad")]
 ///
-/// use errors <- given.all_error(in: results, else_return: fn(_oks, _errors) { "Only some Errors" })
+/// use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) { "Only some Errors" })
 ///
 /// // …handle all errors here…
 /// "All Errors"
@@ -551,35 +581,8 @@ pub fn all_error(
   let #(oks, errors) = rslts |> result.partition
 
   case oks {
-    [] -> alternative(oks, errors)
-    _non_zero_oks -> consequence(errors)
-  }
-}
-
-/// Checks if any of the results are `Error` and runs the consequence - passing
-/// in the `Ok` and `Error` values - if they are, else runs the alternative
-/// passing in all `Ok` values.
-///
-/// ## Examples
-///
-/// ```gleam
-/// import given
-///
-/// let results = [Ok("Great"), Error("Bad")]
-///
-/// use oks, errors <- given.any_error(in: results, else_return: fn(_oks) { "Only OKs" })
-/// ```
-///
-pub fn any_error(
-  in rslts: List(Result(a, e)),
-  else_return alternative: fn(List(a), List(e)) -> b,
-  return consequence: fn(List(e)) -> b,
-) -> b {
-  let #(oks, errors) = rslts |> result.partition
-
-  case errors {
-    [] -> alternative(oks, errors)
-    _non_zero_errors -> consequence(errors)
+    [] -> consequence(errors)
+    _non_zero_oks -> alternative(oks, errors)
   }
 }
 
@@ -620,36 +623,6 @@ pub fn some(
   }
 }
 
-/// Checks if all of the options are `Some` and runs the consequence - passing
-/// in the `Some` values - if they are, else runs the alternative passing in
-/// the `Some` and a count of the `None` values.
-///
-/// ## Examples
-///
-/// ```gleam
-/// import given
-///
-/// let options = [Some("One"), None]
-///
-/// use <- given.all_some(in: options, else_return: fn(_somes, _nones_count) { "Some are None" })
-///
-/// // …handle all Some values here…
-/// "All are Some"
-/// ```
-///
-pub fn all_some(
-  in optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> b,
-  return consequence: fn(List(a)) -> b,
-) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
-
-  case nones_count {
-    0 -> consequence(somes)
-    _positive_none_count -> alternative(somes, nones_count)
-  }
-}
-
 /// Checks if any of the options are `Some` and runs the consequence - passing
 /// in the `Some` values and a count of the `None` values - if they are, else
 /// runs the alternative passing in the count of `None` values.
@@ -661,7 +634,7 @@ pub fn all_some(
 ///
 /// let options = [Some("One"), None]
 ///
-/// use <- given.any_some(in: options, else_return: fn(_somes, _nones_count) { "All are None" })
+/// use _somes, _nones_count <- given.any_some(in: options, else_return: fn(_nones_count) { "All are None" })
 ///
 /// // …handle at least some None values here…
 /// "At least some are None"
@@ -677,6 +650,36 @@ pub fn any_some(
   case somes {
     [] -> alternative(nones_count)
     _non_zero_somes -> consequence(somes, nones_count)
+  }
+}
+
+/// Checks if all of the options are `Some` and runs the consequence - passing
+/// in the `Some` values - if they are, else runs the alternative passing in
+/// the `Some` and a count of the `None` values.
+///
+/// ## Examples
+///
+/// ```gleam
+/// import given
+///
+/// let options = [Some("One"), None]
+///
+/// use _somes <- given.all_some(in: options, else_return: fn(_somes, _nones_count) { "Some are None" })
+///
+/// // …handle all Some values here…
+/// "All are Some"
+/// ```
+///
+pub fn all_some(
+  in optns: List(Option(a)),
+  else_return alternative: fn(List(a), Int) -> b,
+  return consequence: fn(List(a)) -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
+
+  case nones_count {
+    0 -> consequence(somes)
+    _positive_none_count -> alternative(somes, nones_count)
   }
 }
 
@@ -717,35 +720,6 @@ pub fn none(
   }
 }
 
-/// Checks if all of the options are `None` and runs the consequence if they
-/// are, else runs the alternative passing in the `Some` values.
-///
-/// ## Examples
-///
-/// ```gleam
-/// import given
-///
-/// let options = [Some("One"), None]
-///
-/// use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) { "Some are Some" })
-///
-/// // …handle all None values here…
-/// "All are None"
-/// ```
-///
-pub fn all_none(
-  in optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> b,
-  return consequence: fn() -> b,
-) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
-
-  case somes {
-    [] -> consequence()
-    _non_zero_somes -> alternative(somes, nones_count)
-  }
-}
-
 /// Checks if any of the options are `None` and runs the consequence if they
 /// are, else runs the alternative passing in the `Some` values and the count
 /// of `None` values.
@@ -773,5 +747,34 @@ pub fn any_none(
   case nones_count {
     0 -> alternative(somes)
     _positive_none_count -> consequence(somes, nones_count)
+  }
+}
+
+/// Checks if all of the options are `None` and runs the consequence if they
+/// are, else runs the alternative passing in the `Some` values.
+///
+/// ## Examples
+///
+/// ```gleam
+/// import given
+///
+/// let options = [Some("One"), None]
+///
+/// use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) { "Some are Some" })
+///
+/// // …handle all None values here…
+/// "All are None"
+/// ```
+///
+pub fn all_none(
+  in optns: List(Option(a)),
+  else_return alternative: fn(List(a), Int) -> b,
+  return consequence: fn() -> b,
+) -> b {
+  let #(somes, nones_count) = optns |> optionx.partition
+
+  case somes {
+    [] -> consequence()
+    _non_zero_somes -> alternative(somes, nones_count)
   }
 }

@@ -155,11 +155,27 @@ pub fn when_not_test() {
 }
 
 pub fn empty_test() {
-  todo
+  {
+    let list = []
+
+    use <- given.empty(list, else_return: fn() { "Non-empty" })
+
+    // …handle empty list here…
+    "Empty"
+  }
+  |> should.equal("Empty")
 }
 
 pub fn non_empty_test() {
-  todo
+  {
+    let list = []
+
+    use <- given.non_empty(list, else_return: fn() { "Empty" })
+
+    // …handle non-empty list here…
+    "Non-empty"
+  }
+  |> should.equal("Empty")
 }
 
 pub fn ok_test() {
@@ -187,11 +203,29 @@ pub fn ok_test() {
 }
 
 pub fn any_ok_test() {
-  todo
+  {
+    let results = [Ok("Great"), Error("Bad")]
+
+    use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) {
+      "All Errors"
+    })
+
+    // …handle at least some OKs here…
+    "At least some OKs"
+  }
 }
 
 pub fn all_ok_test() {
-  todo
+  {
+    let results = [Ok("Great"), Error("Bad")]
+
+    use _oks <- given.all_ok(in: results, else_return: fn(_oks, _errors) {
+      "Some Errors"
+    })
+
+    // …handle all OKs here…
+    "All OKs"
+  }
 }
 
 pub fn error_test() {
@@ -221,11 +255,31 @@ pub fn error_test() {
 }
 
 pub fn any_error_test() {
-  todo
+  {
+    let results = [Ok("Great"), Error("Bad")]
+
+    use _oks, _errors <- given.any_error(in: results, else_return: fn(_oks) {
+      "Only OKs"
+    })
+
+    // …handle at least some Errors here…
+    "At least some Errors"
+  }
+  |> should.equal("At least some Errors")
 }
 
 pub fn all_error_test() {
-  todo
+  {
+    let results = [Ok("Great"), Error("Bad")]
+
+    use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) {
+      "Only some Errors"
+    })
+
+    // …handle all errors here…
+    "All Errors"
+  }
+  |> should.equal("Only some Errors")
 }
 
 pub fn some_test() {
@@ -251,11 +305,31 @@ pub fn some_test() {
 }
 
 pub fn any_some_test() {
-  todo
+  {
+    let options = [Some("One"), None]
+
+    use _somes, _nones_count <- given.any_some(
+      in: options,
+      else_return: fn(_nones_count) { "All are None" },
+    )
+
+    // …handle at least some None values here…
+    "At least some are None"
+  }
 }
 
 pub fn all_some_test() {
-  todo
+  {
+    let options = [Some("One"), None]
+
+    use _somes <- given.all_some(
+      in: options,
+      else_return: fn(_somes, _nones_count) { "Some are None" },
+    )
+
+    // …handle all Some values here…
+    "All are Some"
+  }
 }
 
 pub fn none_test() {
@@ -281,9 +355,28 @@ pub fn none_test() {
 }
 
 pub fn any_none_test() {
-  todo
+  {
+    let options = [Some("One"), None]
+
+    use _somes, _none_count <- given.any_none(
+      in: options,
+      else_return: fn(_somes) { "All are Somes" },
+    )
+
+    // …handle at least some None values here…
+    "At least some are None"
+  }
 }
 
 pub fn all_none_test() {
-  todo
+  {
+    let options = [Some("One"), None]
+
+    use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) {
+      "Some are Some"
+    })
+
+    // …handle all None values here…
+    "All are None"
+  }
 }
