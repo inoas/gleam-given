@@ -361,11 +361,11 @@ pub fn all_some(
   else_return alternative: fn(List(a), Int) -> c,
   return consequence: fn(List(a)) -> c,
 ) -> c {
-  let #(somes, nones) = optns |> option_partition
+  let #(somes, nones_count) = optns |> option_partition
 
-  case nones {
+  case nones_count {
     0 -> consequence(somes)
-    _plus_1_nones -> alternative(somes, nones)
+    _plus_1_nones -> alternative(somes, nones_count)
   }
 }
 
@@ -373,14 +373,14 @@ pub fn all_some(
 //
 pub fn any_some(
   of optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> c,
-  return consequence: fn(List(a)) -> c,
+  else_return alternative: fn(Int) -> c,
+  return consequence: fn(List(a), Int) -> c,
 ) -> c {
-  let #(somes, nones) = optns |> option_partition
+  let #(somes, nones_count) = optns |> option_partition
 
   case somes {
-    [] -> alternative(somes, nones)
-    _somes -> consequence(somes)
+    [] -> alternative(nones_count)
+    _somes -> consequence(somes, nones_count)
   }
 }
 
@@ -424,11 +424,11 @@ pub fn all_none(
   else_return alternative: fn(List(a), Int) -> c,
   return consequence: fn() -> c,
 ) -> c {
-  let #(somes, nones) = optns |> option_partition
+  let #(somes, nones_count) = optns |> option_partition
 
   case somes {
     [] -> consequence()
-    _somes -> alternative(somes, nones)
+    _somes -> alternative(somes, nones_count)
   }
 }
 
@@ -436,14 +436,14 @@ pub fn all_none(
 //
 pub fn any_none(
   of optns: List(Option(a)),
-  else_return alternative: fn(List(a), Int) -> c,
-  return consequence: fn() -> c,
+  else_return alternative: fn(List(a)) -> c,
+  return consequence: fn(List(a), Int) -> c,
 ) -> c {
-  let #(somes, nones) = optns |> option_partition
+  let #(somes, nones_count) = optns |> option_partition
 
-  case nones {
-    0 -> alternative(somes, nones)
-    _plus_1_nones -> consequence()
+  case nones_count {
+    0 -> alternative(somes)
+    _plus_1_nones -> consequence(somes, nones_count)
   }
 }
 
