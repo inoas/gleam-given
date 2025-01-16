@@ -21,6 +21,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     use qualified `given.error(in:...` or
     unqualified import `given_error_in` instead.
 - Added:
+  - `given.where`
+  - `given.empty`
+  - `given.not_empty`
   - `given.all`
   - `given.any`
   - `given.not_all`
