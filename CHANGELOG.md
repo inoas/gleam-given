@@ -21,21 +21,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
     use qualified `given.error(in:...` or
     unqualified import `given_error_in` instead.
 - Added:
-  - `given.where`
-  - `given.empty`
-  - `given.not_empty`
-  - `given.all`
-  - `given.any`
-  - `given.not_all`
-  - `given.not_any`
-  - `given.all_ok`
-  - `given.any_ok`
-  - `given.all_error`
-  - `given.any_error`
-  - `given.all_some`
-  - `given.any_some`
-  - `given.all_none`
-  - `given.any_none`
+  - `given.all` to check if all elements in a list are true.
+  - `given.any` to check if any elements in a list are true.
+  - `given.not_all` to check if all elements in a list are false.
+  - `given.not_any` to check if any elements in a list are false.
+  - `given.when` to allow for more complex lazy conditions.
+  - `given.when_not` to allow for more complex lazy conditions.
+  - `given.empty` to check if a list is empty.
+  - `given.not_empty` to check if a list is not empty.
+  - `given.all_ok` to check if all results are ok.
+  - `given.any_ok` to check if any results are ok.
+  - `given.all_error` to check if all results are errors.
+  - `given.any_error` to check if any results are errors.
+  - `given.all_some` to check if all options are some.
+  - `given.any_some` to check if any options are some.
+  - `given.all_none` to check if all options are none.
+  - `given.any_none` to check if any options are none.
 
 ## [4.1.1] - 2025-01-01
 
