@@ -5,6 +5,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [5.0.0] - 2025-01-16
+
+- Removed duplicate functions:
+  - `given.given`
+    use qualified `given.that(...` or
+    unqualified import `given` instead.
+  - `given.not_given`
+    use qualified `given.not(in:...` or
+    unqualified import `not_given` instead.
+  - `given.ok_in`
+    use qualified `given.ok(in:...` or
+    unqualified import `given_ok_in` instead.
+  - `given.error_in`,
+    use qualified `given.error(in:...` or
+    unqualified import `given_error_in` instead.
+- Added:
+  - `given.all` to check if all elements in a list are true.
+  - `given.any` to check if any elements in a list are true.
+  - `given.not_all` to check if all elements in a list are false.
+  - `given.not_any` to check if any elements in a list are false.
+  - `given.when` to allow for more complex lazy conditions.
+  - `given.when_not` to allow for more complex lazy conditions.
+  - `given.empty` to check if a list is empty.
+  - `given.non_empty` to check if a list is non-empty.
+  - `given.all_ok` to check if all results are ok.
+  - `given.any_ok` to check if any results are ok.
+  - `given.all_error` to check if all results are errors.
+  - `given.any_error` to check if any results are errors.
+  - `given.all_some` to check if all options are some.
+  - `given.any_some` to check if any options are some.
+  - `given.all_none` to check if all options are none.
+  - `given.any_none` to check if any options are none.
+
 ## [4.1.1] - 2025-01-01
 
 - Improved examples.
