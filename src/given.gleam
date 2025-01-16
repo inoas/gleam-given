@@ -346,7 +346,7 @@ pub fn when_not(
 ///
 /// let list = []
 ///
-/// use <- given.empty(list, else_return: fn() { "Not empty" })
+/// use <- given.empty(list, else_return: fn() { "Non-empty" })
 ///
 /// // …handle empty list here…
 /// "Empty"
@@ -363,7 +363,7 @@ pub fn empty(
   }
 }
 
-/// Checks if the list is not empty and runs the consequence if it is, else
+/// Checks if the list is non-empty and runs the consequence if it is, else
 /// runs the alternative.
 ///
 /// ## Examples
@@ -376,7 +376,7 @@ pub fn empty(
 /// use <- given.non_empty(list, else_return: fn() { "Empty" })
 ///
 /// // …handle non-empty list here…
-/// "Not empty"
+/// "Non-empty"
 /// ```
 ///
 pub fn non_empty(
