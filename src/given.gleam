@@ -364,8 +364,8 @@ pub fn all_some(
   let #(somes, nones) = optns |> option_partition
 
   case nones {
-    [] -> consequence(somes)
-    _nones -> alternative(somes, nones |> list.length)
+    0 -> consequence(somes)
+    _plus_1_nones -> alternative(somes, nones)
   }
 }
 
@@ -379,7 +379,7 @@ pub fn any_some(
   let #(somes, nones) = optns |> option_partition
 
   case somes {
-    [] -> alternative(somes, nones |> list.length)
+    [] -> alternative(somes, nones)
     _somes -> consequence(somes)
   }
 }
@@ -428,7 +428,7 @@ pub fn all_none(
 
   case somes {
     [] -> consequence()
-    _somes -> alternative(somes, nones |> list.length)
+    _somes -> alternative(somes, nones)
   }
 }
 
@@ -442,8 +442,8 @@ pub fn any_none(
   let #(somes, nones) = optns |> option_partition
 
   case nones {
-    [] -> alternative(somes, nones |> list.length)
-    _nones -> consequence()
+    0 -> alternative(somes, nones)
+    _plus_1_nones -> consequence()
   }
 }
 
@@ -459,18 +459,14 @@ pub fn any_none(
 /// // -> #([2, 1], [None, None])
 /// ```
 ///
-fn option_partition(options: List(Option(a))) -> #(List(a), List(e)) {
-  option_partition_loop(options, [], [])
+fn option_partition(options: List(Option(a))) -> #(List(a), Int) {
+  option_partition_loop(options, [], 0)
 }
 
-fn option_partition_loop(
-  options: List(Option(a)),
-  oks: List(a),
-  errors: List(e),
-) {
+fn option_partition_loop(options: List(Option(a)), somes: List(a), nones: Int) {
   case options {
-    [] -> #(oks, errors)
-    [Some(a), ..rest] -> option_partition_loop(rest, [a, ..oks], errors)
-    [None, ..rest] -> option_partition_loop(rest, oks, [e, ..errors])
+    [] -> #(somes, nones)
+    [Some(a), ..rest] -> option_partition_loop(rest, [a, ..somes], nones)
+    [None, ..rest] -> option_partition_loop(rest, somes, nones + 1)
   }
 }
