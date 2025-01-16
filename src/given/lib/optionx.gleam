@@ -16,10 +16,10 @@ pub fn partition(options: List(Option(a))) -> #(List(a), Int) {
   partition_loop(options, [], 0)
 }
 
-fn partition_loop(options: List(Option(a)), somes: List(a), nones: Int) {
+fn partition_loop(options: List(Option(a)), somes: List(a), none_count: Int) {
   case options {
-    [] -> #(somes, nones)
-    [Some(a), ..rest] -> partition_loop(rest, [a, ..somes], nones)
-    [None, ..rest] -> partition_loop(rest, somes, nones + 1)
+    [] -> #(somes, none_count)
+    [Some(a), ..rest] -> partition_loop(rest, [a, ..somes], none_count)
+    [None, ..rest] -> partition_loop(rest, somes, none_count + 1)
   }
 }
