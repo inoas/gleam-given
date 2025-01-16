@@ -5,6 +5,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [5.0.0] - 2025-01-16
+
+- Removed duplicate functions:
+  - `given.given`
+    use qualified `given.that(...` or
+    unqualified import `given` instead.
+  - `given.not_given`
+    use qualified `given.not(in:...` or
+    unqualified import `not_given` instead.
+  - `given.ok_in`
+    use qualified `given.ok(in:...` or
+    unqualified import `given_ok_in` instead.
+  - `given.error_in`,
+    use qualified `given.error(in:...` or
+    unqualified import `given_error_in` instead.
+- Added:
+  - `given.all`
+  - `given.any`
+  - `given.not_all`
+  - `given.not_any`
+  - `given.all_ok`
+  - `given.any_ok`
+  - `given.all_error`
+  - `given.any_error`
+  - `given.all_some`
+  - `given.any_some`
+  - `given.all_none`
+  - `given.any_none`
+
 ## [4.1.1] - 2025-01-01
 
 - Improved examples.
