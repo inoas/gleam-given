@@ -4,6 +4,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- ## [Unreleased] -->
+
 ## [5.0.3] - 2025-03-06
 
 - Fixed license shown in hex to be in line with license in repo.
