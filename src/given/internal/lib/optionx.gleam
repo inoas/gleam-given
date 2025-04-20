@@ -1,7 +1,8 @@
 import gleam/list
 import gleam/option.{type Option, None, Some}
 
-/// Similar to stdlib's result.partition, but for `Option` instead of `Result`.
+/// Similar to stdlib's `result.partition`,
+/// but for `Option` instead of `Result`.
 ///
 /// Given a list of options, returns a pair where the first element is a list
 /// of all the values inside `Some` and the second element is a count of all

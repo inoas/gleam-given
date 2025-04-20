@@ -11,7 +11,7 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/inoas/gleam-given/main/given-logo.png" alt="Given Logo" style="max-height: 33vh; width: auto; height: auto" width="480" height="480"/>
+  <img src="https://raw.githubusercontent.com/inoas/gleam-given/main/given-logo.svg" alt="Given Logo" style="max-height: 33vh; width: auto; height: auto" width="480" height="480"/>
 </p>
 
 <br>
@@ -268,8 +268,6 @@ pub fn given_all_none_example() {
   "There is nothing out there..."
 }
 
-import gleam/io
-
 pub fn main() {
   given_that_example() |> echo
   // "💡 Bright!"
@@ -342,7 +340,9 @@ pub fn main() {
 ### Run usage examples
 
 ```sh
-gleam run --module given/internal/usage_examples
+git clone
+cd example
+gleam run
 ```
 
 ## Development
