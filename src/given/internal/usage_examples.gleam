@@ -232,72 +232,70 @@ pub fn given_all_none_example() {
   "There is nothing out there..."
 }
 
-import gleam/io
-
 pub fn main() {
-  given_that_example() |> io.debug
+  given_that_example() |> echo
   // "💡 Bright!"
 
-  given_any_example() |> io.debug
+  given_any_example() |> echo
   // "At least admin or editor"
 
-  given_all_example() |> io.debug
+  given_all_example() |> echo
   // "Not both active and confirmed"
 
-  given_not_example() |> io.debug
+  given_not_example() |> echo
   // "👌 Access granted..."
 
-  given_not_any_example() |> io.debug
+  given_not_any_example() |> echo
   // "User has no special role!"
 
-  given_not_all_example() |> io.debug
+  given_not_all_example() |> echo
   // "Obsolete model detected."
 
-  given_when_example() |> io.debug
+  given_when_example() |> echo
   // "Indeed an Admin"
 
-  given_when_not_example() |> io.debug
+  given_when_not_example() |> echo
   // "Not an Admin"
 
-  given_empty_example() |> io.debug
+  given_empty_example() |> echo
   // "Empty!"
 
-  given_non_empty_example() |> io.debug
+  given_non_empty_example() |> echo
   // "Non-empty!"
 
-  given_ok_example() |> io.debug
+  given_ok_example() |> echo
   // "Hello Joe, again!"
 
-  given_any_ok_example() |> io.debug
+  given_any_ok_example() |> echo
   // "At least some OKs"
 
-  given_all_ok_example() |> io.debug
+  given_all_ok_example() |> echo
   // "Some Errors"
 
-  given_error_example() |> io.debug
+  given_error_example() |> echo
   // "Memory exhausted, again!"
 
-  given_any_error_example() |> io.debug
+  given_any_error_example() |> echo
   // "Good"
 
-  given_all_error_example() |> io.debug
+  given_all_error_example() |> echo
   // "Meh"
 
-  given_some_example() |> io.debug
+  given_some_example() |> echo
   // "One More Penny"
 
-  given_any_some_example() |> io.debug
+  given_any_some_example() |> echo
   // "We found some Gold!"
 
-  given_all_some_example() |> io.debug
+  given_all_some_example() |> echo
   // "Nothing found..."
 
-  given_none_example() |> io.debug
+  given_none_example() |> echo
   // "None, e.g. Still nothing"
 
-  given_any_none_example() |> io.debug
+  given_any_none_example() |> echo
   // "The system detected Some-things."
 
-  given_all_none_example() |> io.debug
+  given_all_none_example() |> echo
   // "There is something out there..."
 }
