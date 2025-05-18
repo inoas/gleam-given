@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [5.0.4] - 2025-04-20
 
-- Removed a warning of unused io.debug when compiling the dependency or running the example.
+- Removed a warning of unused `io.debug` when compiling the dependency or running the example.
 
 ## [5.0.3] - 2025-03-06
 
