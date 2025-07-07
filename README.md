@@ -341,8 +341,7 @@ pub fn main() {
 
 ```sh
 git clone
-cd examples
-gleam run
+bin/run-examples
 ```
 
 ## Development
