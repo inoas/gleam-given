@@ -2,7 +2,7 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "given", version = "5.0.5", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = ".." },
+  { name = "given", version = "5.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = ".." },
   { name = "gleam_stdlib", version = "0.61.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "3DC407D6EDA98FCE089150C11F3AD892B6F4C3CA77C87A97BAE8D5AB5E41F331" },
 ]
 
