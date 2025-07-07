@@ -41,11 +41,11 @@ pub fn given_all_example() {
   "Not both active and confirmed"
 }
 
-pub fn given_not_any_example() {
+pub fn given_any_not_example() {
   let is_admin = False
   let is_editor = True
 
-  use <- given.not_any([is_admin, is_editor], return: fn() {
+  use <- given.any_not([is_admin, is_editor], return: fn() {
     "At least either Admin or Editor!"
   })
 
@@ -53,11 +53,11 @@ pub fn given_not_any_example() {
   "User has no special role!"
 }
 
-pub fn given_not_all_example() {
+pub fn given_all_not_example() {
   let is_human = False
   let is_robot = False
 
-  use <- given.not_all([is_human, is_robot], return: fn() {
+  use <- given.all_not([is_human, is_robot], return: fn() {
     "Obsolete model detected."
   })
 
@@ -245,10 +245,10 @@ pub fn main() {
   given_not_example() |> echo
   // "👌 Access granted..."
 
-  given_not_any_example() |> echo
+  given_any_not_example() |> echo
   // "User has no special role!"
 
-  given_not_all_example() |> echo
+  given_all_not_example() |> echo
   // "Obsolete model detected."
 
   given_when_example() |> echo
