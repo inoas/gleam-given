@@ -340,9 +340,11 @@ pub fn main() {
 ### Run usage examples
 
 ```sh
-git clone
+git clone https://github.com/inoas/gleam-given.git
 bin/run-examples
 ```
+
+Further documentation can be found at <https://hexdocs.pm/given>.
 
 ## Development
 
@@ -350,3 +352,9 @@ bin/run-examples
 gleam run   # Run the project
 gleam test  # Run the tests
 ```
+
+## Tags
+
+- `early returns`
+- `guards`
+- `bool.guard`
