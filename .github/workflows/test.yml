@@ -16,7 +16,6 @@ jobs:
           otp-version: "28"
           gleam-version: "1.11.1"
           rebar3-version: "3"
-          # elixir-version: "1"
       - run: gleam deps download
       - run: gleam test --target erlang
       - run: gleam test --target javascript
