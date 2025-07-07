@@ -206,7 +206,7 @@ pub fn not(
 /// "Woof!"
 /// ```
 ///
-pub fn not_any(
+pub fn any_not(
   are_true_in requirements: List(Bool),
   return consequence: fn() -> b,
   else_return alternative: fn() -> b,
@@ -215,6 +215,21 @@ pub fn not_any(
     False -> consequence()
     True -> alternative()
   }
+}
+
+/// See any_not
+///
+@deprecated("Use any_not instead")
+pub fn not_any(
+  are_true_in requirements: List(Bool),
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
+  any_not(
+    are_true_in: requirements,
+    return: consequence,
+    else_return: alternative,
+  )
 }
 
 /// Checks if all of the conditions are false and runs the consequence if all
@@ -245,7 +260,7 @@ pub fn not_any(
 /// // …else handle case where user is neither active nor confirmed…
 /// "Woof!"
 ///
-pub fn not_all(
+pub fn all_not(
   are_true_in requirements: List(Bool),
   return consequence: fn() -> b,
   else_return alternative: fn() -> b,
@@ -254,6 +269,21 @@ pub fn not_all(
     False -> consequence()
     True -> alternative()
   }
+}
+
+/// See all_not
+///
+@deprecated("Use all_not instead")
+pub fn not_all(
+  are_true_in requirements: List(Bool),
+  return consequence: fn() -> b,
+  else_return alternative: fn() -> b,
+) -> b {
+  all_not(
+    are_true_in: requirements,
+    return: consequence,
+    else_return: alternative,
+  )
 }
 
 /// Checks if the condition function returns `True` and runs the consequence if
