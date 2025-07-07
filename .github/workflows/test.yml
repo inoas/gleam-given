@@ -18,5 +18,6 @@ jobs:
           rebar3-version: "3"
           # elixir-version: "1"
       - run: gleam deps download
-      - run: gleam test
-      - run: gleam format --check src test
+      - run: gleam test --target erlang
+      - run: gleam test --target javascript
+      - run: gleam format --check src test examples
