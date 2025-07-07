@@ -5,9 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
-## [5.0.5] - 2025-07-05
+## [5.0.5] - 2025-07-08
 
-- Updated dependencies.
+- Updated dependencies and other chore.
 
 ## [5.0.4] - 2025-04-20
 
