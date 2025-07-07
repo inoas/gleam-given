@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 <!-- ## [Unreleased] -->
 
+## [5.1.0] - 2025-07-08
+
+- Added `given.all_not` and `given.any_not`.
+- Deprecated `given.not_all` which will be removed in 6.0.
+- Deprecated `given.not_any` which will be removed in 6.0.
+- Updated dependencies and other chores.
+
 ## [5.0.4] - 2025-04-20
 
 - Removed a warning of unused `io.debug` when compiling the dependency or running the example.

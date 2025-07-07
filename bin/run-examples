@@ -3,4 +3,6 @@
 # Go to the root of the project
 cd "$(dirname "$0")" && cd ..
 
-gleam run --module given/internal/examples
+cd examples
+
+gleam run

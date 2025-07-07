@@ -81,6 +81,20 @@ pub fn not_test() {
   |> should.equal(woof)
 }
 
+pub fn any_not_test() {
+  {
+    let is_admin = False
+    let is_editor = True
+
+    use <- given.any_not([is_admin, is_editor], return: fn() { great })
+
+    // …else handle case where user no special role…
+    woof
+  }
+  |> should.equal(woof)
+}
+
+@deprecated("Remove test in 6.0")
 pub fn not_any_test() {
   {
     let is_admin = False
@@ -94,6 +108,20 @@ pub fn not_any_test() {
   |> should.equal(woof)
 }
 
+pub fn all_not_test() {
+  {
+    let is_human = False
+    let is_robot = False
+
+    use <- given.all_not([is_human, is_robot], return: fn() { great })
+
+    // …else handle case where user is neither active nor confirmed…
+    woof
+  }
+  |> should.equal(great)
+}
+
+@deprecated("Remove test in 6.0")
 pub fn not_all_test() {
   {
     let is_human = False
