@@ -341,7 +341,7 @@ pub fn main() {
 
 ```sh
 git clone
-cd example
+cd examples
 gleam run
 ```
 
