@@ -18,7 +18,7 @@
 
 <p align="center">
   <i>
-    👇Given is a library written in Gleam to make it safe and easy to early return.
+    👇 <a href="https://en.wikipedia.org/wiki/Guard_(computer_science)">guards</a> aka <a href="https://en.wikipedia.org/wiki/Structured_programming#Early_exit">early returns</a> for <b>Bool</b>, <b>Result</b>, <b>Option</b>, and <b>List</b> types in a safe and ergonomic way for Gleam!
   </i>
 </p>
 
@@ -355,6 +355,7 @@ gleam test  # Run the tests
 
 ## Tags
 
-- `early returns`
-- `guards`
+- `early return`
+- `early exit`
+- `guard`
 - `bool.guard`

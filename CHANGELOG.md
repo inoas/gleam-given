@@ -1,9 +1,15 @@
 # Changelog
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<!-- ## [Unreleased] -->
+<!--## [Unreleased]-->
+
+## [5.2.0] - 2025-08-16
+
+- Added `given.not_empty` to improve naming consistency.
+- Deprecated `given.non_empty` which will be removed in 6.0
 
 ## [5.1.0] - 2025-07-08
 
@@ -14,7 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [5.0.4] - 2025-04-20
 
-- Removed a warning of unused `io.debug` when compiling the dependency or running the example.
+- Removed a warning of unused `io.debug` when compiling the dependency or
+  running the example.
 
 ## [5.0.3] - 2025-03-06
 

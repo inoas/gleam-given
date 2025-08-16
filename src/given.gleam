@@ -3,9 +3,12 @@
 //// - Applicable to `Bool`, `Result`, `Option` and `List` types.
 //// - Ergonomic to use by providing ways to handle both branches early.
 //// - Expressive by making it easy to read through function names and labels.
-//// - Comprehendable by not having to negate the conditions.
-//// - Safe to use by not accidentally running discarded branches much like
-////   `bool.lazy_guard`.
+//// - Comprehensible by not having to negate the conditions.
+//// - Safe to execute because:
+////   - either and or branches are enforced.
+////   - not running discarded branch side effects by accident (much like
+////     Gleam stdlib's `bool.lazy_guard`, and unlike Gleam stdlib's
+////     `bool.guard`.
 ////
 
 import given/internal/lib/optionx
@@ -217,7 +220,7 @@ pub fn any_not(
   }
 }
 
-/// See any_not
+/// See `given.any_not()`
 ///
 @deprecated("Use any_not instead")
 pub fn not_any(
@@ -271,7 +274,7 @@ pub fn all_not(
   }
 }
 
-/// See all_not
+/// See `given.all_not`.
 ///
 @deprecated("Use all_not instead")
 pub fn not_all(
@@ -393,6 +396,17 @@ pub fn empty(
   }
 }
 
+/// See `given.not_empty`.
+///
+@deprecated("Use not_empty instead")
+pub fn non_empty(
+  list list: List(a),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  not_empty(list: list, else_return: alternative, return: consequence)
+}
+
 /// Checks if the list is non-empty and runs the consequence if it is, else
 /// runs the alternative.
 ///
@@ -403,13 +417,13 @@ pub fn empty(
 ///
 /// let list = []
 ///
-/// use <- given.non_empty(list, else_return: fn() { "Empty" })
+/// use <- given.not_empty(list, else_return: fn() { "Empty" })
 ///
 /// // …handle non-empty list here…
 /// "Non-empty"
 /// ```
 ///
-pub fn non_empty(
+pub fn not_empty(
   list list: List(a),
   else_return alternative: fn() -> b,
   return consequence: fn() -> b,

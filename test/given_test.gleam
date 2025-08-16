@@ -191,6 +191,18 @@ pub fn empty_test() {
   |> should.equal(great)
 }
 
+pub fn not_empty_test() {
+  {
+    let list = []
+
+    use <- given.not_empty(list, else_return: fn() { woof })
+
+    // …handle non-empty list here…
+    great
+  }
+  |> should.equal(woof)
+}
+
 pub fn non_empty_test() {
   {
     let list = []
