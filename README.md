@@ -348,7 +348,7 @@ Further documentation can be found at <https://hexdocs.pm/given>.
 
 ## Similar projects
 
-See [gond](https://github.com/inoas/gleam-gond) for multi-branch conditional expression similar to if-else if-else or cond for Gleam.
+See [gond](https://github.com/inoas/gleam-gond) for multi-branch conditional expression similar to `if-else`, `if`-`else-if`-`else` or `cond` for Gleam.
 
 ## Tags
 
