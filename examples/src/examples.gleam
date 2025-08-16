@@ -92,10 +92,10 @@ pub fn given_empty_example() {
   "Non-empty!"
 }
 
-pub fn given_non_empty_example() {
+pub fn given_not_empty_example() {
   let list = [1]
 
-  use <- given.non_empty(list, return: fn() { "Non-empty!" })
+  use <- given.not_empty(list, return: fn() { "Non-empty!" })
 
   // …handle case where user is empty…
   "Empty!"
@@ -260,7 +260,7 @@ pub fn main() {
   given_empty_example() |> echo
   // "Empty!"
 
-  given_non_empty_example() |> echo
+  given_not_empty_example() |> echo
   // "Non-empty!"
 
   given_ok_example() |> echo
