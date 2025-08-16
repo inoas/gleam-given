@@ -346,12 +346,9 @@ bin/run-examples
 
 Further documentation can be found at <https://hexdocs.pm/given>.
 
-## Development
+## Similar projects
 
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-```
+See [gond](https://github.com/inoas/gleam-gond) for multi-branch conditional expression similar to if-else if-else or cond for Gleam.
 
 ## Tags
 
@@ -359,3 +356,10 @@ gleam test  # Run the tests
 - `early exit`
 - `guard`
 - `bool.guard`
+
+## Development
+
+```sh
+gleam run   # Run the project
+gleam test  # Run the tests
+```
