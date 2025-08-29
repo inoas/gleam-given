@@ -11,7 +11,7 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/inoas/gleam-given/main/given-logo.svg" alt="Given Logo" style="max-height: 33vh; width: auto; height: auto" width="480" height="480"/>
+  <img src="https://raw.githubusercontent.com/inoas/gleam-given/main/given-logo.svg" alt="Gleam Given Logo" style="max-height: 33vh; width: auto; height: auto" width="480" height="480"/>
 </p>
 
 <br>
@@ -21,9 +21,6 @@
     👇 <a href="https://en.wikipedia.org/wiki/Guard_(computer_science)">guards</a> aka <a href="https://en.wikipedia.org/wiki/Structured_programming#Early_exit">early returns</a> for <b>Bool</b>, <b>Result</b>, <b>Option</b>, and <b>List</b> types in a safe and ergonomic way for Gleam!
   </i>
 </p>
-
-<br>
-<br>
 
 ## Installation
 
