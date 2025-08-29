@@ -46,7 +46,7 @@ pub fn given_any_not_example() {
   let is_editor = True
 
   use <- given.any_not([is_admin, is_editor], return: fn() {
-    "At least either Admin or Editor!"
+    "At least either admin or editor!"
   })
 
   // …else handle case where user no special role…
@@ -54,33 +54,33 @@ pub fn given_any_not_example() {
 }
 
 pub fn given_all_not_example() {
-  let is_human = False
-  let is_robot = False
+  let is_android = False
+  let is_synthetic = False
 
-  use <- given.all_not([is_human, is_robot], return: fn() {
+  use <- given.all_not([is_android, is_synthetic], return: fn() {
     "Obsolete model detected."
   })
 
-  // …else handle case where user is neither active nor confirmed…
+  // …else handle case where the user is neither an android nor a synth…
   "I am a Cylon!"
 }
 
 pub fn given_when_example() {
   let enabled = fn() { True }
 
-  use <- given.when(enabled, else_return: fn() { "Not an Admin" })
+  use <- given.when(enabled, else_return: fn() { "Not an admin" })
 
-  // …handle case where user is an Admin…
-  "Indeed an Admin"
+  // …handle case where user is an admin…
+  "Indeed an admin"
 }
 
 pub fn given_when_not_example() {
   let enabled = fn() { False }
 
-  use <- given.when_not(enabled, else_return: fn() { "Indeed an Admin" })
+  use <- given.when_not(enabled, else_return: fn() { "Indeed an admin" })
 
   // …handle case where user is not an Admin…
-  "Not an Admin"
+  "Not an admin"
 }
 
 pub fn given_empty_example() {
@@ -88,7 +88,7 @@ pub fn given_empty_example() {
 
   use <- given.empty(list, return: fn() { "Empty!" })
 
-  // …handle case where user is non-empty…
+  // …handle case where list is non-empty…
   "Non-empty!"
 }
 
@@ -97,7 +97,7 @@ pub fn given_not_empty_example() {
 
   use <- given.not_empty(list, return: fn() { "Non-empty!" })
 
-  // …handle case where user is empty…
+  // …handle case where list is empty…
   "Empty!"
 }
 
@@ -115,22 +115,22 @@ pub fn given_any_ok_example() {
   let results = [Ok("Great"), Error("Bad")]
 
   use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) {
-    "All Errors"
+    "All errors"
   })
 
   // …handle at least some OKs here…
-  "At least some OKs"
+  "At least some Ok values"
 }
 
 pub fn given_all_ok_example() {
   let results = [Ok("Great"), Error("Bad")]
 
   use _oks <- given.all_ok(in: results, else_return: fn(_oks, _errors) {
-    "Some Errors"
+    "Some errors"
   })
 
   // …handle all OKs here…
-  "All OKs"
+  "All Ok values"
 }
 
 pub fn given_error_example() {
@@ -170,7 +170,7 @@ pub fn given_all_error_example() {
 import gleam/option.{None, Some}
 
 pub fn given_some_example() {
-  let an_option = Some("One More Penny")
+  let an_option = Some("One more penny")
 
   use some_value <- given.some(in: an_option, else_return: fn() { "Woof!" })
   // …handle Some value here…
@@ -186,7 +186,7 @@ pub fn given_any_some_example() {
   )
 
   // …handle at least some None values here…
-  "We found some Gold!"
+  "We found some gold!"
 }
 
 pub fn given_all_some_example() {
@@ -198,7 +198,7 @@ pub fn given_all_some_example() {
   )
 
   // …handle all Some values here…
-  "There is Gold everywhere!"
+  "There is gold everywhere!"
 }
 
 pub fn given_none_example() {
@@ -206,7 +206,7 @@ pub fn given_none_example() {
 
   use <- given.none(in: an_option, else_return: fn(_some_value) { "Some value" })
   // …handle None here…
-  "None, e.g. Still nothing!"
+  "None, e.g. still nothing!"
 }
 
 pub fn given_any_none_example() {
@@ -214,7 +214,7 @@ pub fn given_any_none_example() {
 
   use _somes, _none_count <- given.any_none(
     in: options,
-    else_return: fn(_somes) { "Only Nones Here!" },
+    else_return: fn(_somes) { "Only Nones here!" },
   )
 
   // …handle at least some None values here…
@@ -252,10 +252,10 @@ pub fn main() {
   // "Obsolete model detected."
 
   given_when_example() |> echo
-  // "Indeed an Admin"
+  // "Indeed an admin"
 
   given_when_not_example() |> echo
-  // "Not an Admin"
+  // "Not an admin"
 
   given_empty_example() |> echo
   // "Empty!"
@@ -267,7 +267,7 @@ pub fn main() {
   // "Hello Joe, again!"
 
   given_any_ok_example() |> echo
-  // "At least some OKs"
+  // "At least some Ok values"
 
   given_all_ok_example() |> echo
   // "Some Errors"
