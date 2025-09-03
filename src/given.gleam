@@ -39,6 +39,10 @@ pub fn that(
   }
 }
 
+// TODO:
+// pub fn one()
+// pub fn n()
+
 /// Checks if any of the conditions are `True` and runs the consequence if any
 /// are, otherwise runs the alternative.
 ///
@@ -112,6 +116,10 @@ pub fn not(
     False -> alternative()
   }
 }
+
+// TODO:
+// pub fn one_not()
+// pub fn n_not()
 
 /// Checks if any of the conditions are `False` and runs the consequence if any
 /// are, otherwise runs the alternative.
@@ -295,6 +303,10 @@ pub fn ok(
   }
 }
 
+// TODO:
+// pub fn one_ok()
+// pub fn n_ok()
+
 /// Checks if any of the results are `Ok` and runs the consequence -  passing in
 /// the `Ok` and `Error` values - if they are, otherwise runs the alternative passing
 /// in all `Error` values.
@@ -379,6 +391,10 @@ pub fn error(
   }
 }
 
+// TODO:
+// pub fn one_error()
+// pub fn n_error()
+
 /// Checks if any of the results are `Error` and runs the consequence - passing
 /// in the `Ok` and `Error` values - if they are, otherwise runs the alternative
 /// passing in all `Ok` values.
@@ -462,6 +478,10 @@ pub fn some(
     None -> alternative()
   }
 }
+
+// TODO:
+// pub fn one_some()
+// pub fn n_some()
 
 /// Checks if any of the options are `Some` and runs the consequence - passing
 /// in the `Some` values and a count of the `None` values - if they are, else
@@ -567,6 +587,10 @@ pub fn none(
   }
 }
 
+// TODO:
+// pub fn one_none()
+// pub fn n_none()
+
 /// Checks if any of the options are `None` and runs the consequence if they
 /// are, otherwise runs the alternative passing in the `Some` values and the count
 /// of `None` values.
@@ -628,3 +652,65 @@ pub fn all_none(
     _non_zero_somes -> alternative(somes, nones_count)
   }
 }
+//
+// // Int:
+
+// given.less(int, than int, else_return: alternative, return: consequence)
+// given.less_than_or_equal(int, to int, else_return: alternative, return: consequence)
+// given.equal(int, to int, else_return: alternative, return: consequence)
+// given.greater_than_or_equal(int, to int, else_return: alternative, return: consequence)
+// given.greater(int, than int, else_return: alternative, return: consequence)
+
+// // List(Int):
+
+// given.one_*
+// given.n_*
+// given.all_less(ints, than int, else_return: alternative, return: consequence)
+// given.all_less_than_or_equal(ints, to int, else_return: alternative, return: consequence)
+// given.all_equal(ints, to int, else_return: alternative, return: consequence)
+// given.all_not_equal(ints, to int, else_return: alternative, return: consequence)
+// given.all_greater_than_or_equal(ints, to int, else_return: alternative, return: consequence)
+// given.all_greater(ints, than int, else_return: alternative, return: consequence)
+// given.any_less(ints, than int, else_return: alternative, return: consequence)
+// given.any_less_than_or_equal(ints, to int, else_return: alternative, return: consequence)
+// given.any_equal(ints, to int, else_return: alternative, return: consequence)
+// given.any_not_equal(ints, to int, else_return: alternative, return: consequence)
+// given.any_greater_than_or_equal(ints, to int, else_return: alternative, return: consequence)
+// given.any_greater(ints, than int, else_return: alternative, return: consequence)
+
+// // Float with tolerance:
+
+// given.loosely_less(float, than float, tolerance, else_return: alternative, return: consequence)
+// given.loosely_less_than_or_equal(float, to float, tolerance, else_return: alternative, return: consequence)
+// given.loosely_equal(float, to float, tolerance, else_return: alternative, return: consequence)
+// given.loosely_greater_than_or_equal(float, to float, tolerance, else_return: alternative, return: consequence)
+// given.loosely_greater(float, than float, tolerance, else_return: alternative, return: consequence)
+
+// // List(Float) with tolerance:
+
+// given.one_*
+// given.n_*
+// given.all_loosely_less(floats, than float, tolerance, else_return: alternative, return: consequence)
+// given.all_loosely_less_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
+// given.all_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
+// given.all_not_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
+// given.all_loosely_greater_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
+// given.all_loosely_greater(floats, than float, tolerance, else_return: alternative, return: consequence)
+// given.any_loosely_less(floats, than float, tolerance, else_return: alternative, return: consequence)
+// given.any_loosely_less_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
+// given.any_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
+// given.any_not_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
+// given.any_loosely_greater_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
+// given.any_loosely_greater(floats, than float, tolerance, else_return: alternative, return: consequence)
+
+// // String:
+
+// given.empty_string(string, else_return: alternative, return: consequence)
+// given.starts_with(string, head string, else_return: alternative, return: consequence)
+// given.contains(string, sub string, else_return: alternative, return: consequence)
+// given.ends_with(string, tail string, else_return: alternative, return: consequence)
+
+// // Dict:
+
+// given.has_key(dict, key, else_return: alternative, return: consequence)
+// given.has_key_value(dict, key, value, else_return: alternative, return: consequence)
