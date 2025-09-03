@@ -25,7 +25,7 @@
 ## Installation
 
 ```sh
-gleam add given@5
+gleam add given@6
 ```
 
 ## Usage
@@ -48,14 +48,6 @@ pub fn given_that_example() {
   "💡 Bright!"
 }
 
-pub fn given_not_example() {
-  let has_admin_role = False
-
-  use <- given.not(has_admin_role, else_return: fn() { "Access granted!" })
-
-  "✋ Denied!"
-}
-
 pub fn given_any_example() {
   let is_admin = False
   let is_editor = True
@@ -72,6 +64,14 @@ pub fn given_all_example() {
   use <- given.all([is_active, is_confirmed], else_return: fn() { "Stop!" })
 
   "🏇 Ready, steady, go!"
+}
+
+pub fn given_not_example() {
+  let has_admin_role = False
+
+  use <- given.not(has_admin_role, else_return: fn() { "Access granted!" })
+
+  "✋ Denied!"
 }
 
 pub fn given_any_not_example() {
@@ -181,15 +181,13 @@ pub fn given_any_error_example() {
 }
 
 pub fn given_all_error_example() {
-  {
-    let results = [Error("Sad"), Error("Lonely")]
+  let results = [Error("Sad"), Error("Lonely")]
 
-    use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) {
-      "Life is good!"
-    })
+  use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) {
+    "Life is good!"
+  })
 
-    "☕ Take care and learn to love yourself!"
-  }
+  "☕ Take care and learn to love yourself!"
 }
 
 import gleam/option.{None, Some}
