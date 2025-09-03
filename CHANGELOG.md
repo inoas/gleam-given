@@ -6,6 +6,21 @@ and this project adheres to
 
 <!--## [Unreleased]-->
 
+## [5.2.1] - 2025-09-03
+
+**NOTICE: 6.0 will have a breaking change where `return` and `else_return`
+argument order will be unified**:
+
+**TO MAKE CERTAIN LOGIC IS NOT INVERTED USE `else_return` and/or `return` ARG
+LABELS BEFORE UPGRADING TO 6.0!**
+
+- Fixed a bug in `given.any_not` (and deprecated `given.not_any`) where the
+  result was inverse of what it should be.
+- Improved readme and examples.
+- Reverted the decision to replace `given.non_empty` with `given.not_empty`.
+  Both will exist till 6.0 but then only `given.non_empty`.
+
+
 ## [5.2.0] - 2025-08-16
 
 - Added `given.not_empty` to improve naming consistency.

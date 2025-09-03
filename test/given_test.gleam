@@ -3,7 +3,7 @@ import gleam/option.{None, Some}
 import gleeunit
 import gleeunit/should
 
-pub fn main() {
+pub fn main() -> Nil {
   gleeunit.main()
 }
 
@@ -17,7 +17,6 @@ pub fn that_test() {
 
     use <- given.that(user_understood, return: fn() { great })
 
-    // …else user handles case where user did not understand here…
     woof
   }
   |> should.equal(woof)
@@ -27,7 +26,6 @@ pub fn that_test() {
 
     use <- given.that(user_understood, return: fn() { great })
 
-    // …else user handles case where user did not understand here…
     woof
   }
   |> should.equal(great)
@@ -40,7 +38,6 @@ pub fn any_test() {
 
     use <- given.any([is_admin, is_editor], return: fn() { great })
 
-    // …else handle case where user has no special role…
     woof
   }
   |> should.equal(great)
@@ -53,7 +50,6 @@ pub fn all_test() {
 
     use <- given.all([is_active, is_confirmed], return: fn() { great })
 
-    // …else handle case where user is not both active and confirmed…
     woof
   }
   |> should.equal(great)
@@ -65,7 +61,6 @@ pub fn not_test() {
 
     use <- given.not(user_understood, return: fn() { great })
 
-    // …else user handles case where user understood here…
     woof
   }
   |> should.equal(great)
@@ -75,7 +70,6 @@ pub fn not_test() {
 
     use <- given.not(user_understood, return: fn() { great })
 
-    // …else user handles case where user understood here…
     woof
   }
   |> should.equal(woof)
@@ -86,12 +80,11 @@ pub fn any_not_test() {
     let is_admin = False
     let is_editor = True
 
-    use <- given.any_not([is_admin, is_editor], return: fn() { great })
+    use <- given.any_not([is_admin, is_editor], else_return: fn() { woof })
 
-    // …else handle case where user no special role…
-    woof
+    great
   }
-  |> should.equal(woof)
+  |> should.equal(great)
 }
 
 @deprecated("Remove test in 6.0")
@@ -100,12 +93,11 @@ pub fn not_any_test() {
     let is_admin = False
     let is_editor = True
 
-    use <- given.not_any([is_admin, is_editor], return: fn() { great })
+    use <- given.not_any([is_admin, is_editor], else_return: fn() { woof })
 
-    // …else handle case where user no special role…
-    woof
+    great
   }
-  |> should.equal(woof)
+  |> should.equal(great)
 }
 
 pub fn all_not_test() {
@@ -115,7 +107,6 @@ pub fn all_not_test() {
 
     use <- given.all_not([is_human, is_robot], return: fn() { great })
 
-    // …else handle case where user is neither active nor confirmed…
     woof
   }
   |> should.equal(great)
@@ -129,7 +120,6 @@ pub fn not_all_test() {
 
     use <- given.not_all([is_human, is_robot], return: fn() { great })
 
-    // …else handle case where user is neither active nor confirmed…
     woof
   }
   |> should.equal(great)
@@ -141,7 +131,6 @@ pub fn when_test() {
 
     use <- given.when(enabled, return: fn() { great })
 
-    // …handle case where user is not an Admin…
     woof
   }
   |> should.equal(woof)
@@ -151,7 +140,6 @@ pub fn when_test() {
 
     use <- given.when(enabled, else_return: fn() { great })
 
-    // …handle case where user is an Admin…
     woof
   }
   |> should.equal(great)
@@ -163,7 +151,6 @@ pub fn when_not_test() {
 
     use <- given.when_not(enabled, else_return: fn() { great })
 
-    // …handle case where user is an Admin…
     woof
   }
   |> should.equal(woof)
@@ -173,7 +160,6 @@ pub fn when_not_test() {
 
     use <- given.when_not(enabled, return: fn() { great })
 
-    // …handle case where user is not an Admin…
     woof
   }
   |> should.equal(great)
@@ -185,7 +171,6 @@ pub fn empty_test() {
 
     use <- given.empty(list, else_return: fn() { woof })
 
-    // …handle empty list here…
     great
   }
   |> should.equal(great)
@@ -197,7 +182,6 @@ pub fn not_empty_test() {
 
     use <- given.not_empty(list, else_return: fn() { woof })
 
-    // …handle non-empty list here…
     great
   }
   |> should.equal(woof)
@@ -209,7 +193,6 @@ pub fn non_empty_test() {
 
     use <- given.non_empty(list, else_return: fn() { woof })
 
-    // …handle non-empty list here…
     great
   }
   |> should.equal(woof)
@@ -222,7 +205,6 @@ pub fn ok_test() {
       error_value
     })
 
-    // …user handles Ok value here…
     ok_value
   }
   |> should.equal(great)
@@ -233,7 +215,6 @@ pub fn ok_test() {
       error_value
     })
 
-    // …user handles Ok value here…
     ok_value
   }
   |> should.equal(woof)
@@ -247,7 +228,6 @@ pub fn any_ok_test() {
       woof
     })
 
-    // …handle at least some OKs here…
     great
   }
   |> should.equal(great)
@@ -261,7 +241,6 @@ pub fn all_ok_test() {
       woof
     })
 
-    // …handle all OKs here…
     great
   }
   |> should.equal(woof)
@@ -275,7 +254,6 @@ pub fn error_test() {
       great
     })
 
-    // …user handles Error value here…
     woof
   }
   |> should.equal(woof)
@@ -287,7 +265,6 @@ pub fn error_test() {
       great
     })
 
-    // …user handles Error value here…
     woof
   }
   |> should.equal(great)
@@ -301,7 +278,6 @@ pub fn any_error_test() {
       woof
     })
 
-    // …handle at least some Errors here…
     great
   }
   |> should.equal(great)
@@ -315,7 +291,6 @@ pub fn all_error_test() {
       woof
     })
 
-    // …handle all errors here…
     great
   }
   |> should.equal(woof)
@@ -325,9 +300,8 @@ pub fn some_test() {
   {
     let option = Some(great)
 
-    use _some_value <- given.some(in: option, else_return: fn() { woof })
+    use _some <- given.some(in: option, else_return: fn() { woof })
 
-    // …user handles Some value here…
     great
   }
   |> should.equal(great)
@@ -335,9 +309,8 @@ pub fn some_test() {
   {
     let option = Some(great)
 
-    use _some_value <- given.some(in: option, else_return: fn() { woof })
+    use _some <- given.some(in: option, else_return: fn() { woof })
 
-    // …user handles Some value here…
     great
   }
   |> should.equal(great)
@@ -352,7 +325,6 @@ pub fn any_some_test() {
       else_return: fn(_nones_count) { woof },
     )
 
-    // …handle at least some None values here…
     great
   }
   |> should.equal(great)
@@ -367,7 +339,6 @@ pub fn all_some_test() {
       else_return: fn(_somes, _nones_count) { woof },
     )
 
-    // …handle all Some values here…
     great
   }
   |> should.equal(woof)
@@ -377,9 +348,8 @@ pub fn none_test() {
   {
     let option = Some(great)
 
-    use <- given.none(in: option, else_return: fn(_some_value) { woof })
+    use <- given.none(in: option, else_return: fn(_some) { woof })
 
-    // …user handles None here…
     great
   }
   |> should.equal(woof)
@@ -387,9 +357,8 @@ pub fn none_test() {
   {
     let option = None
 
-    use <- given.none(in: option, else_return: fn(_some_value) { woof })
+    use <- given.none(in: option, else_return: fn(_some) { woof })
 
-    // …user handles None here…
     great
   }
   |> should.equal(great)
@@ -404,7 +373,6 @@ pub fn any_none_test() {
       else_return: fn(_somes) { woof },
     )
 
-    // …handle at least some None values here…
     great
   }
   |> should.equal(great)
@@ -418,7 +386,6 @@ pub fn all_none_test() {
       woof
     })
 
-    // …handle all None values here…
     great
   }
   |> should.equal(woof)

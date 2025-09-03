@@ -43,178 +43,163 @@ import given
 pub fn given_that_example() {
   let user_understood = True
 
-  use <- given.that(user_understood, return: fn() { "💡 Bright!" })
-  // …else handle case where user did not understand here…
-  "🤯 Woof!"
+  use <- given.that(user_understood, else_return: fn() { "Woof!" })
+
+  "💡 Bright!"
 }
 
 pub fn given_not_example() {
-  // Fetch this from some database
-  let has_admin_role = True
+  let has_admin_role = False
 
-  use <- given.not(has_admin_role, return: fn() { "✋ Denied!" })
-  // …else handle case where they are admin here…
-  "👌 Access granted..."
+  use <- given.not(has_admin_role, else_return: fn() { "Access granted!" })
+
+  "✋ Denied!"
 }
 
 pub fn given_any_example() {
   let is_admin = False
   let is_editor = True
 
-  use <- given.any([is_admin, is_editor], return: fn() {
-    "At least admin or editor"
-  })
+  use <- given.any([is_admin, is_editor], else_return: fn() { "Cannot pass!" })
 
-  // …else handle case where user has no special role…
-  "Got nothing to say 🤷‍♂️"
+  "🎵 Snap - I've got the power!"
 }
 
 pub fn given_all_example() {
   let is_active = True
-  let is_confirmed = False
+  let is_confirmed = True
 
-  use <- given.all([is_active, is_confirmed], return: fn() {
-    "Ready, steady, go!"
-  })
+  use <- given.all([is_active, is_confirmed], else_return: fn() { "Stop!" })
 
-  // …else handle case where user is not both active and confirmed…
-  "Not both active and confirmed"
+  "🏇 Ready, steady, go!"
 }
 
 pub fn given_any_not_example() {
-  let is_admin = False
-  let is_editor = True
+  let got_veggies = True
+  let got_spices = False
 
-  use <- given.any_not([is_admin, is_editor], return: fn() {
-    "At least either admin or editor!"
+  use <- given.any_not([got_veggies, got_spices], else_return: fn() {
+    "Preparing a soup!"
   })
 
-  // …else handle case where user no special role…
-  "User has no special role!"
+  "😭 Ingredient missing..."
 }
 
 pub fn given_all_not_example() {
   let is_android = False
   let is_synthetic = False
 
-  use <- given.all_not([is_android, is_synthetic], return: fn() {
-    "Obsolete model detected."
+  use <- given.all_not([is_android, is_synthetic], else_return: fn() {
+    "I am a Cylon!"
   })
 
-  // …else handle case where the user is neither an android nor a synth…
-  "I am a Cylon!"
+  "🪦 Obsolete model detected."
 }
 
 pub fn given_when_example() {
-  let enabled = fn() { True }
+  let enabled_in_db = fn() { True }
 
-  use <- given.when(enabled, else_return: fn() { "Not an admin" })
+  use <- given.when(enabled_in_db, else_return: fn() { "User disabled!" })
 
-  // …handle case where user is an admin…
-  "Indeed an admin"
+  "✅ User enabled"
 }
 
 pub fn given_when_not_example() {
-  let enabled = fn() { False }
+  let enabled_in_db = fn() { False }
 
-  use <- given.when_not(enabled, else_return: fn() { "Indeed an admin" })
+  use <- given.when_not(enabled_in_db, else_return: fn() { "User enabled!" })
 
-  // …handle case where user is not an Admin…
-  "Not an admin"
+  "❌ User disabled"
 }
 
 pub fn given_empty_example() {
   let list = []
 
-  use <- given.empty(list, return: fn() { "Empty!" })
+  use <- given.empty(list, else_return: fn() {
+    "Full as if you ate two large vegan 🍔!"
+  })
 
-  // …handle case where list is non-empty…
-  "Non-empty!"
+  "🛸 Empty like vast space!"
 }
 
-pub fn given_not_empty_example() {
+pub fn given_non_empty_example() {
   let list = [1]
 
-  use <- given.not_empty(list, return: fn() { "Non-empty!" })
+  use <- given.non_empty(list, else_return: fn() { "Empty like vast space! 🛸" })
 
-  // …handle case where list is empty…
-  "Empty!"
+  "🍔 Full as if you ate two large vegan!"
 }
 
 pub fn given_ok_example() {
-  let a_result = Ok("Hello Joe, again!")
+  let result = Ok("📞 Hello Joe, again!")
 
-  use ok_value <- given.ok(in: a_result, else_return: fn(_error_value) {
-    "Error value"
+  use val <- given.ok(in: result, else_return: fn(_error) {
+    "Joe is unreachable, now 💔."
   })
-  // …handle Ok value here…
-  ok_value
+
+  val
 }
 
 pub fn given_any_ok_example() {
-  let results = [Ok("Great"), Error("Bad")]
+  let results = [Ok("Happy"), Error("Sad")]
 
   use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) {
-    "All errors"
+    "All Error values!"
   })
 
-  // …handle at least some OKs here…
-  "At least some Ok values"
+  "👍 At least one Ok values!"
 }
 
 pub fn given_all_ok_example() {
-  let results = [Ok("Great"), Error("Bad")]
+  let results = [Ok("Happy"), Ok("Glad")]
 
   use _oks <- given.all_ok(in: results, else_return: fn(_oks, _errors) {
-    "Some errors"
+    "At least one Error value!"
   })
 
-  // …handle all OKs here…
-  "All Ok values"
+  "👍👍 All Ok values"
 }
 
 pub fn given_error_example() {
-  let a_result = Error("Memory exhausted, again!")
+  let result = Error("💻 Memory exhausted!")
 
-  use error_value <- given.error(in: a_result, else_return: fn(_ok_value) {
-    "Ok value"
+  use val <- given.error(in: result, else_return: fn(_ok) {
+    "Allocating memory..."
   })
-  // …handle Error value here…
-  error_value
+
+  val
 }
 
 pub fn given_any_error_example() {
-  let results = [Ok("Good"), Error("Bad")]
+  let results = [Ok("Happy"), Error("Sad")]
 
   use _oks, _errors <- given.any_error(in: results, else_return: fn(_oks) {
-    "Bad"
+    "No Errors"
   })
 
-  // …handle at least some Errors here…
-  "Good"
+  "🚧 At least one Error occured!"
 }
 
 pub fn given_all_error_example() {
   {
-    let results = [Ok("Nice"), Error("Meh")]
+    let results = [Error("Sad"), Error("Lonely")]
 
     use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) {
-      "Meh"
+      "Life is good!"
     })
 
-    // …handle all errors here…
-    "Nice"
+    "☕ Take care and learn to love yourself!"
   }
 }
 
 import gleam/option.{None, Some}
 
 pub fn given_some_example() {
-  let an_option = Some("One more penny")
+  let option = Some("🪙 One more penny")
 
-  use some_value <- given.some(in: an_option, else_return: fn() { "Woof!" })
-  // …handle Some value here…
-  some_value
+  use val <- given.some(in: option, else_return: fn() { "Nothing to spare!" })
+
+  val
 }
 
 pub fn given_any_some_example() {
@@ -222,31 +207,31 @@ pub fn given_any_some_example() {
 
   use _somes, _nones_count <- given.any_some(
     in: options,
-    else_return: fn(_nones_count) { "Just rocks here, move on..." },
+    else_return: fn(_nones_count) { "Nothing at all." },
   )
 
-  // …handle at least some None values here…
-  "We found some gold!"
+  "😅 At least one Some!"
 }
 
 pub fn given_all_some_example() {
-  let options = [Some("One"), None]
+  let options = [Some("Treasure Chest"), Some("Nugget")]
 
   use _somes <- given.all_some(
     in: options,
-    else_return: fn(_somes, _nones_count) { "Nothing found..." },
+    else_return: fn(_somes, _nones_count) { "Nothing at all" },
   )
 
-  // …handle all Some values here…
-  "There is gold everywhere!"
+  "🏅 There is gold everywhere!"
 }
 
 pub fn given_none_example() {
-  let an_option = None
+  let option = None
 
-  use <- given.none(in: an_option, else_return: fn(_some_value) { "Some value" })
-  // …handle None here…
-  "None, e.g. still nothing!"
+  use <- given.none(in: option, else_return: fn(_some_value) {
+    "There is someone sleeping!"
+  })
+
+  "🛏, aka None is in this bed!"
 }
 
 pub fn given_any_none_example() {
@@ -254,90 +239,45 @@ pub fn given_any_none_example() {
 
   use _somes, _none_count <- given.any_none(
     in: options,
-    else_return: fn(_somes) { "Only Nones here!" },
+    else_return: fn(_somes) { "Only Somes here!" },
   )
 
-  // …handle at least some None values here…
-  "The system detected Some-things."
+  "🕳️, aka None, detected in the system at least once."
 }
 
 pub fn given_all_none_example() {
-  let options = [Some("One"), None]
+  let options = [None, None]
 
   use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) {
-    "There is something out there..."
+    "Someone tipped me :)!"
   })
 
-  // …handle all None values here…
-  "There is nothing out there..."
+  "🫙 There is nothing in the jar..."
 }
 
 pub fn main() {
   given_that_example() |> echo
-  // "💡 Bright!"
-
   given_any_example() |> echo
-  // "At least admin or editor"
-
   given_all_example() |> echo
-  // "Not both active and confirmed"
-
   given_not_example() |> echo
-  // "👌 Access granted..."
-
   given_any_not_example() |> echo
-  // "User has no special role!"
-
   given_all_not_example() |> echo
-  // "Obsolete model detected."
-
   given_when_example() |> echo
-  // "Indeed an admin"
-
   given_when_not_example() |> echo
-  // "Not an admin"
-
   given_empty_example() |> echo
-  // "Empty!"
-
-  given_not_empty_example() |> echo
-  // "Non-empty!"
-
+  given_non_empty_example() |> echo
   given_ok_example() |> echo
-  // "Hello Joe, again!"
-
   given_any_ok_example() |> echo
-  // "At least some Ok values"
-
   given_all_ok_example() |> echo
-  // "Some Errors"
-
   given_error_example() |> echo
-  // "Memory exhausted, again!"
-
   given_any_error_example() |> echo
-  // "Good"
-
   given_all_error_example() |> echo
-  // "Meh"
-
   given_some_example() |> echo
-  // "One More Penny"
-
   given_any_some_example() |> echo
-  // "We found some Gold!"
-
   given_all_some_example() |> echo
-  // "Nothing found..."
-
   given_none_example() |> echo
-  // "None, e.g. Still nothing"
-
   given_any_none_example() |> echo
-  // "The system detected Some-things."
-
   given_all_none_example() |> echo
-  // "There is something out there..."
 }
 ```
 
