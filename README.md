@@ -191,7 +191,7 @@ pub fn given_any_error_example() {
     "No Errors"
   })
 
-  "🚧 At least one Error occured!"
+  "🚧 At least one Error occurred!"
 }
 
 pub fn given_all_error_example() {
