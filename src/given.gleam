@@ -678,30 +678,30 @@ pub fn all_none(
 // given.any_greater_than_or_equal(ints, to int, else_return: alternative, return: consequence)
 // given.any_greater(ints, than int, else_return: alternative, return: consequence)
 
-// // Float with tolerance:
+// // Float with tolerating:
 
-// given.loosely_less(float, than float, tolerance, else_return: alternative, return: consequence)
-// given.loosely_less_than_or_equal(float, to float, tolerance, else_return: alternative, return: consequence)
-// given.loosely_equal(float, to float, tolerance, else_return: alternative, return: consequence)
-// given.loosely_greater_than_or_equal(float, to float, tolerance, else_return: alternative, return: consequence)
-// given.loosely_greater(float, than float, tolerance, else_return: alternative, return: consequence)
+// given.loosely_less(float, than float, tolerating, else_return: alternative, return: consequence)
+// given.loosely_less_than_or_equal(float, to float, tolerating, else_return: alternative, return: consequence)
+// given.loosely_equal(float, to float, tolerating, else_return: alternative, return: consequence)
+// given.loosely_greater_than_or_equal(float, to float, tolerating, else_return: alternative, return: consequence)
+// given.loosely_greater(float, than float, tolerating, else_return: alternative, return: consequence)
 
-// // List(Float) with tolerance:
+// // List(Float) with tolerating:
 
 // given.one_*
 // given.n_*
-// given.all_loosely_less(floats, than float, tolerance, else_return: alternative, return: consequence)
-// given.all_loosely_less_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
-// given.all_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
-// given.all_not_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
-// given.all_loosely_greater_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
-// given.all_loosely_greater(floats, than float, tolerance, else_return: alternative, return: consequence)
-// given.any_loosely_less(floats, than float, tolerance, else_return: alternative, return: consequence)
-// given.any_loosely_less_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
-// given.any_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
-// given.any_not_loosely_equal(floats, tolerance, else_return: alternative, return: consequence)
-// given.any_loosely_greater_than_or_equal(floats, to float, tolerance, else_return: alternative, return: consequence)
-// given.any_loosely_greater(floats, than float, tolerance, else_return: alternative, return: consequence)
+// given.all_loosely_less(floats, than float, tolerating, else_return: alternative, return: consequence)
+// given.all_loosely_less_than_or_equal(floats, to float, tolerating, else_return: alternative, return: consequence)
+// given.all_loosely_equal(floats, tolerating, else_return: alternative, return: consequence)
+// given.all_not_loosely_equal(floats, tolerating, else_return: alternative, return: consequence)
+// given.all_loosely_greater_than_or_equal(floats, to float, tolerating, else_return: alternative, return: consequence)
+// given.all_loosely_greater(floats, than float, tolerating, else_return: alternative, return: consequence)
+// given.any_loosely_less(floats, than float, tolerating, else_return: alternative, return: consequence)
+// given.any_loosely_less_than_or_equal(floats, to float, tolerating, else_return: alternative, return: consequence)
+// given.any_loosely_equal(floats, tolerating, else_return: alternative, return: consequence)
+// given.any_not_loosely_equal(floats, tolerating, else_return: alternative, return: consequence)
+// given.any_loosely_greater_than_or_equal(floats, to float, tolerating, else_return: alternative, return: consequence)
+// given.any_loosely_greater(floats, than float, tolerating, else_return: alternative, return: consequence)
 
 // // String:
 
