@@ -87,38 +87,12 @@ pub fn any_not_test() {
   |> should.equal(great)
 }
 
-@deprecated("Remove test in 6.0")
-pub fn not_any_test() {
-  {
-    let is_admin = False
-    let is_editor = True
-
-    use <- given.not_any([is_admin, is_editor], else_return: fn() { woof })
-
-    great
-  }
-  |> should.equal(great)
-}
-
 pub fn all_not_test() {
   {
     let is_human = False
     let is_robot = False
 
     use <- given.all_not([is_human, is_robot], return: fn() { great })
-
-    woof
-  }
-  |> should.equal(great)
-}
-
-@deprecated("Remove test in 6.0")
-pub fn not_all_test() {
-  {
-    let is_human = False
-    let is_robot = False
-
-    use <- given.not_all([is_human, is_robot], return: fn() { great })
 
     woof
   }
@@ -174,17 +148,6 @@ pub fn empty_test() {
     great
   }
   |> should.equal(great)
-}
-
-pub fn not_empty_test() {
-  {
-    let list = []
-
-    use <- given.not_empty(list, else_return: fn() { woof })
-
-    great
-  }
-  |> should.equal(woof)
 }
 
 pub fn non_empty_test() {
