@@ -7,8 +7,7 @@
 //// - Safe to execute because:
 ////   - either and or branches are enforced.
 ////   - not running discarded branch side effects by accident (much like
-////     Gleam stdlib's `bool.lazy_guard`, and unlike Gleam stdlib's
-////     `bool.guard`.
+////     Gleam's standard library `bool.lazy_guard`, and its `bool.guard`).
 ////
 
 import given/internal/lib/optionx
@@ -191,7 +190,7 @@ pub fn not(
 /// let is_admin = False
 /// let is_editor = True
 ///
-/// use <- given.not_any([is_admin, is_editor], return: fn() { "At least either Admin or Editor!" })
+/// use <- given.any_not([is_admin, is_editor], return: fn() { "At least either Admin or Editor!" })
 ///
 /// // …else handle case where user no special role…
 /// "Woof!"
@@ -203,7 +202,9 @@ pub fn not(
 /// let is_admin = False
 /// let is_editor = True
 ///
-/// use <- given.not_any(are_true_in: [is_admin, is_editor], return: fn() { "At least either Admin or Editor!" })
+/// use <- given.any_not(are_true_in: [is_admin, is_editor], return: fn() {
+///   "At least either Admin or Editor!"
+/// })
 ///
 /// // …else handle case where user no special role…
 /// "Woof!"
@@ -214,9 +215,9 @@ pub fn any_not(
   return consequence: fn() -> b,
   else_return alternative: fn() -> b,
 ) -> b {
-  case requirements |> list.any(fn(v) { v == True }) {
-    False -> consequence()
-    True -> alternative()
+  case requirements |> list.any(fn(v) { v == False }) {
+    True -> consequence()
+    False -> alternative()
   }
 }
 
@@ -246,7 +247,7 @@ pub fn not_any(
 /// let is_active = True
 /// let is_confirmed = True
 ///
-/// use <- given.not_all([is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
+/// use <- given.all_not([is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
 ///
 /// // …else handle case where user is neither active nor confirmed…
 /// "Woof!"
@@ -258,7 +259,7 @@ pub fn not_any(
 /// let is_active = True
 /// let is_confirmed = True
 ///
-/// use <- given.not_all(are_true_in: [is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
+/// use <- given.all_not(are_true_in: [is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
 ///
 /// // …else handle case where user is neither active nor confirmed…
 /// "Woof!"
@@ -396,17 +397,6 @@ pub fn empty(
   }
 }
 
-/// See `given.not_empty`.
-///
-@deprecated("Use not_empty instead")
-pub fn non_empty(
-  list list: List(a),
-  else_return alternative: fn() -> b,
-  return consequence: fn() -> b,
-) -> b {
-  not_empty(list: list, else_return: alternative, return: consequence)
-}
-
 /// Checks if the list is non-empty and runs the consequence if it is, else
 /// runs the alternative.
 ///
@@ -417,12 +407,24 @@ pub fn non_empty(
 ///
 /// let list = []
 ///
-/// use <- given.not_empty(list, else_return: fn() { "Empty" })
+/// use <- given.non_empty(list, else_return: fn() { "Empty" })
 ///
 /// // …handle non-empty list here…
 /// "Non-empty"
 /// ```
 ///
+pub fn non_empty(
+  list list: List(a),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case list {
+    [] -> alternative()
+    _non_empty -> consequence()
+  }
+}
+
+@deprecated("see given.non_empty again, sorry for the confusion")
 pub fn not_empty(
   list list: List(a),
   else_return alternative: fn() -> b,
