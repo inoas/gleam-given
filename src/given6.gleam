@@ -12,9 +12,13 @@ import gleam/string
 // given.one_*
 // given.n_*
 
-// Integer comparison functions
 /// Checks if the first integer is less than the second and runs the consequence if it is, else
 /// runs the alternative.
+/// use <- given.equals(5, to: 5, else_return: alt_fun)
+///
+/// consider using this instead for `Int`s:
+///
+/// use <- given.that(5 == 5, else_return: alt_fun)
 ///
 pub fn less(
   the_value value: Int,
@@ -27,6 +31,11 @@ pub fn less(
     False -> alternative()
   }
 }
+
+// use <- given.that(float.loosely_compare(5.0, with: 5.3, tolerating: 0.5) == order.Eq, else: alt_fun)
+//
+// use <- given.loosely_equal(5.0, to: 5.3, tolerating: 0.5, else: alt_fun)
+//
 
 /// Checks if the first integer is less than or equal to the second and runs the consequence if it is, else
 /// runs the alternative.
@@ -88,7 +97,6 @@ pub fn greater(
   }
 }
 
-// List of integers comparison functions
 /// Checks if all integers in the list are less than the threshold and runs the consequence if they are, else
 /// runs the alternative.
 ///
@@ -269,7 +277,6 @@ pub fn any_greater(
   }
 }
 
-// Float comparison functions with tolerance
 /// Checks if the first float is less than the second within the given tolerance and runs the consequence if it is, else
 /// runs the alternative.
 ///
@@ -350,7 +357,6 @@ pub fn loosely_greater(
   }
 }
 
-// List of floats comparison functions with tolerance
 /// Checks if all floats in the list are less than the threshold within the given tolerance and runs the consequence if they are, else
 /// runs the alternative.
 ///
@@ -563,7 +569,6 @@ pub fn any_loosely_greater(
   }
 }
 
-// String operations
 /// Checks if the string is empty and runs the consequence if it is, else
 /// runs the alternative.
 ///
@@ -623,7 +628,6 @@ pub fn ends_with(
   }
 }
 
-// Dictionary operations
 /// Checks if the dictionary has the given key and runs the consequence if it does, else
 /// runs the alternative.
 ///
@@ -650,7 +654,8 @@ pub fn has_key_value(
   return consequence: fn() -> b,
 ) -> b {
   case dict.get(dict, key) {
-    Ok(val) if val == value -> consequence()
+    Ok(dict_value) if dict_value == value -> consequence()
     _ -> alternative()
   }
 }
+// TODO: given.regexp_match
