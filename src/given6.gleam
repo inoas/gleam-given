@@ -2,27 +2,28 @@ import gleam/dict.{type Dict}
 import gleam/list
 import gleam/string
 
-// // List(Int):
-
-// given.one_*
-// given.n_*
-
-// // List(Float) with tolerating:
-
-// given.one_*
-// given.n_*
-
-/// Checks if the first integer is less than the second and runs the consequence if it is, else
-/// runs the alternative.
-/// use <- given.equals(5, to: 5, else_return: alt_fun)
+/// Checks if the first integer is less than the second and runs the consequence
+/// if it is, else runs the alternative.
 ///
-/// consider using this instead for `Int`s:
+/// ⚠️ NOTICE: Instead of…
 ///
-/// use <- given.that(5 == 5, else_return: alt_fun)
+/// ```gleam
+/// let i = 4
+/// use <- given.less(the_value: i, to: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i < 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
 ///
 pub fn less(
   the_value value: Int,
-  than threshold: Int,
+  to threshold: Int,
   else_return alternative: fn() -> b,
   return consequence: fn() -> b,
 ) -> b {
@@ -32,13 +33,24 @@ pub fn less(
   }
 }
 
-// use <- given.that(float.loosely_compare(5.0, with: 5.3, tolerating: 0.5) == order.Eq, else: alt_fun)
-//
-// use <- given.loosely_equal(5.0, to: 5.3, tolerating: 0.5, else: alt_fun)
-//
-
-/// Checks if the first integer is less than or equal to the second and runs the consequence if it is, else
-/// runs the alternative.
+/// Checks if the first integer is less than or equal to the second and runs the
+/// consequence if it is, else runs the alternative.
+///
+/// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.less_than_or_equal(i, to: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i < 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
 ///
 pub fn less_than_or_equal(
   the_value value: Int,
@@ -658,4 +670,5 @@ pub fn has_key_value(
     _ -> alternative()
   }
 }
+//
 // TODO: given.regexp_match
