@@ -737,6 +737,7 @@ pub fn all_start_with(
 /// )
 /// // result == "yes"
 /// ```
+///
 pub fn any_start_with(
   the_strings: List(String),
   head: String,
@@ -762,6 +763,7 @@ pub fn any_start_with(
 /// )
 /// // result == "no"
 /// ```
+///
 pub fn all_end_with(
   the_strings: List(String),
   tail: String,
@@ -787,6 +789,7 @@ pub fn all_end_with(
 /// )
 /// // result == "yes"
 /// ```
+///
 pub fn any_end_with(
   the_strings: List(String),
   tail: String,
