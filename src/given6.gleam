@@ -699,12 +699,156 @@ pub fn ends_with(
   }
 }
 
-// pub fn all_start_with
-// pub fn any_start_with
-// pub fn all_end_with
-// pub fn any_end_with
-// pub fn all_contain
-// pub fn any_contain
+/// Checks if all strings in the list start with the given prefix and runs the consequence if they do, else runs the alternative.
+///
+/// ## Example
+///
+/// ```gleam
+/// use <- given.all_start_with(
+///   the_strings: ["foo", "foobar", "fooz"],
+///   head: "foo",
+///   else_return: fn() { "no" },
+/// )
+/// "yes"
+/// ```
+///
+pub fn all_start_with(
+  the_strings: List(String),
+  head: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.all(fn(s) { string.starts_with(s, head) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
+
+/// Checks if any string in the list starts with the given prefix and runs the consequence if one does, else runs the alternative.
+///
+/// ## Example
+///
+/// ```gleam
+/// let result = given.any_start_with(
+///   the_strings: ["bar", "baz", "foo"],
+///   head: "foo",
+///   else_return: fn() { "no" },
+///   return: fn() { "yes" }
+/// )
+/// // result == "yes"
+/// ```
+pub fn any_start_with(
+  the_strings: List(String),
+  head: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.any(fn(s) { string.starts_with(s, head) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
+
+/// Checks if all strings in the list end with the given suffix and runs the consequence if they do, else runs the alternative.
+///
+/// ## Example
+///
+/// ```gleam
+/// let result = given.all_end_with(
+///   the_strings: ["bar", "foobar", "bazbar"],
+///   tail: "bar",
+///   else_return: fn() { "no" },
+///   return: fn() { "yes" }
+/// )
+/// // result == "no"
+/// ```
+pub fn all_end_with(
+  the_strings: List(String),
+  tail: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.all(fn(s) { string.ends_with(s, tail) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
+
+/// Checks if any string in the list ends with the given suffix and runs the consequence if one does, else runs the alternative.
+///
+/// ## Example
+///
+/// ```gleam
+/// let result = given.any_end_with(
+///   the_strings: ["bar", "foobar", "bazbar"],
+///   tail: "bar",
+///   else_return: fn() { "no" },
+///   return: fn() { "yes" }
+/// )
+/// // result == "yes"
+/// ```
+pub fn any_end_with(
+  the_strings: List(String),
+  tail: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.any(fn(s) { string.ends_with(s, tail) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
+
+/// Checks if all strings in the list contain the given substring and runs the consequence if they do, else runs the alternative.
+///
+/// ## Example
+///
+/// ```gleam
+/// let result = given.all_contain(
+///   the_strings: ["foobar", "barfoo", "bazbar"],
+///   sub: "bar",
+///   else_return: fn() { "no" },
+///   return: fn() { "yes" }
+/// )
+/// // result == "yes"
+/// ```
+///
+pub fn all_contain(
+  the_strings: List(String),
+  sub: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.all(fn(s) { string.contains(s, sub) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
+
+/// Checks if any string in the list contains the given substring and runs the consequence if one does, else runs the alternative.
+///
+/// ## Example
+/// ```gleam
+/// let result = given.any_contain(
+///   the_strings: ["foo", "baz", "bar"],
+///   sub: "bar",
+///   else_return: fn() { "no" },
+///   return: fn() { "yes" }
+/// )
+/// // result == "yes"
+/// ```
+///
+pub fn any_contain(
+  the_strings: List(String),
+  sub: String,
+  else_return: fn() -> b,
+  return: fn() -> b,
+) -> b {
+  case the_strings |> list.any(fn(s) { string.contains(s, sub) }) {
+    True -> return()
+    False -> else_return()
+  }
+}
 
 /// Checks if the dictionary has the given key and runs the consequence if it
 /// does, else runs the alternative.
