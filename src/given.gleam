@@ -11,11 +11,9 @@
 ////
 
 import given/internal/lib/optionx
-import gleam/dict.{type Dict}
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
-import gleam/string
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // │  Bool                                                                     │
