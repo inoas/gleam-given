@@ -5,6 +5,23 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!--## [Unreleased]-->
+## [6.0.0] - 2025-09-??
+
+**NOTICE: 6.0 contains a breaking change where `return` and `else_return`
+argument order were unified**:
+
+**TO MAKE CERTAIN LOGIC IS NOT INVERTED BY ACCIDENT USE `else_return` and/or
+`return` ARGUMENT LABELS WHEN UPGRADING TO 6.0!**
+
+- Following functions have their return and else_return argument order switched:
+  - `given.that`
+  - `given.any`
+  - `given.all`
+  - `given.not`
+  - `given.any_not`
+  - `given.all_not`
+- Function documentation has been improved and unified with the examples.
+- Examples have been improved.
 
 ## [5.2.1] - 2025-09-03
 

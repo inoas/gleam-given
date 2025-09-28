@@ -15,35 +15,27 @@ import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
 
-/// Checks if the condition is true and runs the consequence if it is, else
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Bool                                                                     │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the condition is `True` and runs the consequence if it is, else
 /// runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
-///
 /// let user_understood = True
 ///
-/// use <- given.that(user_understood, return: fn() { "Great!" })
-/// // …else handle case where user did not understand here…
-/// "Woof!"
-/// ```
+/// use <- given.that(user_understood, else_return: fn() { "Woof!" })
 ///
-/// ```gleam
-/// import given.{that as given}
-///
-/// let user_understood = True
-///
-/// use <- given(user_understood, return: fn() { "Great!" })
-/// // …else handle case where user did not understand here…
-/// "Woof!"
+/// "💡 Bright!"
 /// ```
 ///
 pub fn that(
   the_case requirement: Bool,
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
   case requirement {
     True -> consequence()
@@ -51,39 +43,24 @@ pub fn that(
   }
 }
 
-/// Checks if any of the conditions are true and runs the consequence if any
-/// are, else runs the alternative.
+/// Checks if any of the conditions are `True` and runs the consequence if any
+/// are, otherwise runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
-///
 /// let is_admin = False
 /// let is_editor = True
 ///
-/// use <- given.any([is_admin, is_editor], return: fn() { "Great!" })
+/// use <- given.any([is_admin, is_editor], else_return: fn() { "Cannot pass!" })
 ///
-/// // …else handle case where user has no special role…
-/// "Woof!"
-/// ```
-///
-/// ```gleam
-/// import given
-///
-/// let is_admin = False
-/// let is_editor = True
-///
-/// use <- given.any(are_true_in: [is_admin, is_editor], return: fn() { "Great!" })
-///
-/// // …else handle case where user has no special role…
-/// "Woof!"
+/// "🎵 Snap - I've got the power!"
 /// ```
 ///
 pub fn any(
   are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
   case requirements |> list.any(fn(v) { v == True }) {
     True -> consequence()
@@ -91,38 +68,24 @@ pub fn any(
   }
 }
 
-/// Checks if all of the conditions are true and runs the consequence if all
-/// are, else runs the alternative.
+/// Checks if all of the conditions are `True` and runs the consequence if all
+/// are, otherwise runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
-///
 /// let is_active = True
 /// let is_confirmed = True
 ///
-/// use <- given.all([is_active, is_confirmed], return: fn() { "Great!" })
+/// use <- given.all([is_active, is_confirmed], else_return: fn() { "Stop!" })
 ///
-/// // …else handle case where user is not both active and confirmed…
-/// "Woof!"
+/// "🏇 Ready, steady, go!"
 /// ```
 ///
-/// ```gleam
-/// import given
-///
-/// let is_active = True
-/// let is_confirmed = True
-///
-/// use <- given.all(are_true_in: [is_active, is_confirmed], return: fn() { "Great!" })
-///
-/// // …else handle case where user is not both active and confirmed…
-/// "Woof!"
-/// ```
 pub fn all(
   are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
   case requirements |> list.all(fn(v) { v == True }) {
     True -> consequence()
@@ -130,90 +93,50 @@ pub fn all(
   }
 }
 
-/// Checks if the condition is false and runs the consequence if it is, else
+/// Checks if the condition is `False` and runs the consequence if it is, else
 /// runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let has_admin_role = False
 ///
-/// let user_understood = True
+/// use <- given.not(has_admin_role, else_return: fn() { "Access granted!" })
 ///
-/// use <- given.not(user_understood, return: fn() { "Woof!" })
-///
-/// // …else handle case where user understood here…
-/// "Great!"
-/// ```
-///
-/// ```gleam
-/// import given
-///
-/// let user_understood = True
-///
-/// use <- given.not(the_case: user_understood, return: fn() { "Woof!" })
-///
-/// // …else handle case where user understood here…
-/// "Great!"
-/// ```
-///
-/// ```gleam
-/// import given.{not as not_given}
-///
-/// let user_understood = True
-///
-/// use <- not_given(user_understood, return: fn() { "Woof!" })
-///
-/// // …else handle case where user understood here…
-/// "Great!"
+/// "✋ Denied!"
 /// ```
 ///
 pub fn not(
   the_case requirement: Bool,
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
-  case requirement {
-    False -> consequence()
-    True -> alternative()
+  case requirement == False {
+    True -> consequence()
+    False -> alternative()
   }
 }
 
-/// Checks if any of the conditions are false and runs the consequence if any
-/// are, else runs the alternative.
+/// Checks if any of the conditions are `False` and runs the consequence if any
+/// are, otherwise runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let got_veggies = True
+/// let got_spices = False
 ///
-/// let is_admin = False
-/// let is_editor = True
-///
-/// use <- given.any_not([is_admin, is_editor], return: fn() { "At least either Admin or Editor!" })
-///
-/// // …else handle case where user no special role…
-/// "Woof!"
-/// ```
-///
-/// ```gleam
-/// import given
-///
-/// let is_admin = False
-/// let is_editor = True
-///
-/// use <- given.any_not(are_true_in: [is_admin, is_editor], return: fn() {
-///   "At least either Admin or Editor!"
+/// use <- given.any_not([got_veggies, got_spices], else_return: fn() {
+///   "Preparing a soup!"
 /// })
 ///
-/// // …else handle case where user no special role…
-/// "Woof!"
+/// "😭 Ingredient missing..."
 /// ```
 ///
 pub fn any_not(
   are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
   case requirements |> list.any(fn(v) { v == False }) {
     True -> consequence()
@@ -221,102 +144,50 @@ pub fn any_not(
   }
 }
 
-/// See `given.any_not()`
-///
-@deprecated("Use any_not instead")
-pub fn not_any(
-  are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
-  else_return alternative: fn() -> b,
-) -> b {
-  any_not(
-    are_true_in: requirements,
-    return: consequence,
-    else_return: alternative,
-  )
-}
-
-/// Checks if all of the conditions are false and runs the consequence if all
-/// are, else runs the alternative.
+/// Checks if all of the conditions are `False` and runs the consequence if all
+/// are, otherwise runs the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
-///
-/// let is_active = True
-/// let is_confirmed = True
-///
-/// use <- given.all_not([is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
-///
-/// // …else handle case where user is neither active nor confirmed…
-/// "Woof!"
+// let is_android = False
+// let is_synthetic = False
+//
+// use <- given.all_not([is_android, is_synthetic], else_return: fn() {
+//   "I am a Cylon!"
+// })
+//
+// "🪦 Obsolete model detected."
 /// ```
-///
-/// ```gleam
-/// import given
-///
-/// let is_active = True
-/// let is_confirmed = True
-///
-/// use <- given.all_not(are_true_in: [is_active, is_confirmed], return: fn() { "Cylone Sleeper Agent!" })
-///
-/// // …else handle case where user is neither active nor confirmed…
-/// "Woof!"
 ///
 pub fn all_not(
   are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
   else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
 ) -> b {
-  case requirements |> list.all(fn(v) { v == True }) {
-    False -> consequence()
-    True -> alternative()
+  case requirements |> list.all(fn(v) { v == False }) {
+    True -> consequence()
+    False -> alternative()
   }
 }
 
-/// See `given.all_not`.
-///
-@deprecated("Use all_not instead")
-pub fn not_all(
-  are_true_in requirements: List(Bool),
-  return consequence: fn() -> b,
-  else_return alternative: fn() -> b,
-) -> b {
-  all_not(
-    are_true_in: requirements,
-    return: consequence,
-    else_return: alternative,
-  )
-}
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Function                                                                 │
+// └───────────────────────────────────────────────────────────────────────────┘
 
 /// Checks if the condition function returns `True` and runs the consequence if
-/// it is, else runs the alternative.
+/// it is, otherwise runs the alternative.
 ///
-/// Use to lazily evaluate a complex condition and return early if they fail.
+/// Use to lazily evaluate a complex condition and return early if it fails.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let enabled_in_db = fn() { True }
 ///
-/// let enabled = fn() { False }
+/// use <- given.when(enabled_in_db, else_return: fn() { "User disabled!" })
 ///
-/// use <- given.when(enabled, else_return: fn() { "Not an Admin" })
-///
-/// // …handle case where user is an Admin…
-/// "Indeed an Admin"
-/// ```
-///
-/// ```gleam
-/// import given
-///
-/// let enabled = fn() { False }
-///
-/// use <- given.when(enabled, return: fn() { "Indeed an Admin" })
-///
-/// // …handle case where user is not an Admin…
-/// "Not an Admin"
+/// "✅ User enabled"
 /// ```
 ///
 pub fn when(
@@ -331,32 +202,18 @@ pub fn when(
 }
 
 /// Checks if the condition function returns `False` and runs the consequence if
-/// it is, else runs the alternative.
+/// it is, otherwise runs the alternative.
 ///
 /// Use to lazily evaluate a complex condition and return early if they fail.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let enabled_in_db = fn() { False }
 ///
-/// let enabled = fn() { False }
+/// use <- given.when_not(enabled_in_db, else_return: fn() { "User enabled!" })
 ///
-/// use <- given.when_not(enabled, else_return: fn() { "Indeed an Admin" })
-///
-/// // …handle case where user is not an Admin…
-/// "Not an Admin"
-/// ```
-///
-/// ```gleam
-/// import given
-///
-/// let enabled = fn() { False }
-///
-/// use <- given.when_not(enabled, return: fn() { "Not an Admin" })
-///
-/// // …handle case where user is an Admin…
-/// "Indeed an Admin"
+/// "❌ User disabled"
 /// ```
 ///
 pub fn when_not(
@@ -364,26 +221,29 @@ pub fn when_not(
   else_return alternative: fn() -> b,
   return consequence: fn() -> b,
 ) -> b {
-  case condition() {
-    False -> consequence()
-    True -> alternative()
+  case condition() == False {
+    True -> consequence()
+    False -> alternative()
   }
 }
 
-/// Checks if the list is empty and runs the consequence if it is, else runs
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  List                                                                     │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the list is empty and runs the consequence if it is, otherwise runs
 /// the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
-///
-/// let list = []
-///
-/// use <- given.empty(list, else_return: fn() { "Non-empty" })
-///
-/// // …handle empty list here…
-/// "Empty"
+// let list = []
+//
+// use <- given.empty(list, else_return: fn() {
+//   "Full as if you ate two large vegan 🍔!"
+// })
+//
+// "🛸 Empty like vast space!"
 /// ```
 ///
 pub fn empty(
@@ -403,14 +263,11 @@ pub fn empty(
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let list = [1]
 ///
-/// let list = []
+/// use <- given.non_empty(list, else_return: fn() { "Empty like vast space! 🛸" })
 ///
-/// use <- given.non_empty(list, else_return: fn() { "Empty" })
-///
-/// // …handle non-empty list here…
-/// "Non-empty"
+/// "🍔 Full as if you ate two large vegan!"
 /// ```
 ///
 pub fn non_empty(
@@ -424,17 +281,9 @@ pub fn non_empty(
   }
 }
 
-@deprecated("see given.non_empty again, sorry for the confusion")
-pub fn not_empty(
-  list list: List(a),
-  else_return alternative: fn() -> b,
-  return consequence: fn() -> b,
-) -> b {
-  case list {
-    [] -> alternative()
-    _not_empty -> consequence()
-  }
-}
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Result                                                                   │
+// └───────────────────────────────────────────────────────────────────────────┘
 
 /// Checks if the result is an `Ok` and runs the consequence if it is, else
 /// runs the alternative.
@@ -442,61 +291,48 @@ pub fn not_empty(
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let result = Ok("📞 Hello Joe, again!")
 ///
-/// let result = Ok("Great")
+/// use val <- given.ok(in: result, else_return: fn(_error) {
+///   "Joe is unreachable, now 💔."
+/// })
 ///
-/// use ok_value <- given.ok(in: result, else_return: fn(error_value) { "Error" })
-///
-/// // …handle Ok value here…
-/// "Ok"
-/// ```
-///
-/// ```gleam
-/// import given.{ok as given_ok_in}
-///
-/// let result = Ok("Great")
-///
-/// use ok_value <- given_ok_in(result, else_return: fn(error_value) { "Error" })
-///
-/// // …handle Ok value here…
-/// "Ok"
+/// val
 /// ```
 ///
 pub fn ok(
-  in rslt: Result(a, e),
+  in result: Result(a, e),
   else_return alternative: fn(e) -> b,
   return consequence: fn(a) -> b,
 ) -> b {
-  case rslt {
+  case result {
     Ok(val) -> consequence(val)
     Error(err) -> alternative(err)
   }
 }
 
 /// Checks if any of the results are `Ok` and runs the consequence -  passing in
-/// the `Ok` and `Error` values - if they are, else runs the alternative passing
+/// the `Ok` and `Error` values - if they are, otherwise runs the alternative passing
 /// in all `Error` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let results = [Ok("Happy"), Error("Sad")]
 ///
-/// let results = [Ok("Great"), Error("Bad")]
+/// use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) {
+///   "All Error values!"
+/// })
 ///
-/// use _oks, _errors <- given.any_ok(in: results, else_return: fn(_errors) { "All Errors" })
-///
-/// // …handle at least some OKs here…
-/// "At least some OKs"
+/// "👍 At least one Ok values!"
 /// ```
 ///
 pub fn any_ok(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(e)) -> b,
   return consequence: fn(List(a), List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case oks {
     [] -> alternative(errors)
@@ -505,28 +341,27 @@ pub fn any_ok(
 }
 
 /// Checks if all of the results are `Ok` and runs the consequence - passing in
-/// the `Ok` values - if they are, else runs the alternative passing in all
+/// the `Ok` values - if they are, otherwise runs the alternative passing in all
 /// `Ok` and `Error` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let results = [Ok("Happy"), Ok("Glad")]
 ///
-/// let results = [Ok("Great"), Error("Bad")]
+/// use _oks <- given.all_ok(in: results, else_return: fn(_oks, _errors) {
+///   "At least one Error value!"
+/// })
 ///
-/// use oks <- given.all_ok(in: results, else_return: fn(_oks, _errors) { "Some Errors" })
-///
-/// // …handle all OKs here…
-/// "All OKs"
+/// "👍👍 All Ok values"
 /// ```
 ///
 pub fn all_ok(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a), List(e)) -> b,
   return consequence: fn(List(a)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case errors {
     [] -> consequence(oks)
@@ -540,61 +375,48 @@ pub fn all_ok(
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let result = Error("💻 Memory exhausted!")
 ///
-/// let result = Error(Nil)
+/// use val <- given.error(in: result, else_return: fn(_ok) {
+///   "Allocating memory..."
+/// })
 ///
-/// use error_value <- given.error(in: result, else_return: fn(ok_value) { "Ok" })
-///
-/// // …handle Error value here…
-/// "Error"
-/// ```
-///
-/// ```gleam
-/// import given.{error as given_error_in}
-///
-/// let result = Error(Nil)
-///
-/// use error_value <- given_error_in(result, else_return: fn(ok_value) { "Ok" })
-///
-/// // …handle Error value here…
-/// "Error"
+/// val
 /// ```
 ///
 pub fn error(
-  in rslt: Result(a, e),
+  in result: Result(a, e),
   else_return alternative: fn(a) -> b,
   return consequence: fn(e) -> b,
 ) -> b {
-  case rslt {
+  case result {
     Error(err) -> consequence(err)
     Ok(val) -> alternative(val)
   }
 }
 
 /// Checks if any of the results are `Error` and runs the consequence - passing
-/// in the `Ok` and `Error` values - if they are, else runs the alternative
+/// in the `Ok` and `Error` values - if they are, otherwise runs the alternative
 /// passing in all `Ok` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let results = [Ok("Happy"), Error("Sad")]
 ///
-/// let results = [Ok("Great"), Error("Bad")]
+/// use _oks, _errors <- given.any_error(in: results, else_return: fn(_oks) {
+///   "No Errors"
+/// })
 ///
-/// use _oks, _errors <- given.any_error(in: results, else_return: fn(_oks) { "Only OKs" })
-///
-/// // …handle at least some Errors here…
-/// "At least some Errors"
+/// "🚧 At least one Error occured!"
 /// ```
 ///
 pub fn any_error(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a)) -> b,
   return consequence: fn(List(a), List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case errors {
     [] -> alternative(oks)
@@ -603,28 +425,27 @@ pub fn any_error(
 }
 
 /// Checks if all of the results are `Error` and runs the consequence - passing
-/// in the `Error` values - if they are, else runs the alternative passing in
+/// in the `Error` values - if they are, otherwise runs the alternative passing in
 /// all `Ok` and `Error` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// let results = [Error("Sad"), Error("Lonely")]
 ///
-/// let results = [Ok("Great"), Error("Bad")]
+/// use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) {
+///   "Life is good!"
+/// })
 ///
-/// use _errors <- given.all_error(in: results, else_return: fn(_oks, _errors) { "Only some Errors" })
-///
-/// // …handle all errors here…
-/// "All Errors"
+/// "☕ Take care and learn to love yourself!"
 /// ```
 ///
 pub fn all_error(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a), List(e)) -> b,
   return consequence: fn(List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case oks {
     [] -> consequence(errors)
@@ -632,41 +453,31 @@ pub fn all_error(
   }
 }
 
-/// Checks if the option is `Some` and runs the consequence if it is, else runs
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Option                                                                   │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the option is `Some` and runs the consequence if it is, otherwise runs
 /// the alternative.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
 /// import gleam/option.{Some}
 ///
-/// let option = Some("One")
+/// let option = Some("🪙 One more penny")
 ///
-/// use some_value <- given.some(in: option, else_return: fn() { "None" })
+/// use val <- given.some(in: option, else_return: fn() { "Nothing to spare!" })
 ///
-/// // …handle Some value here…
-/// "Some value"
-/// ```
-///
-/// ```gleam
-/// import given.{some as given_some_in}
-/// import gleam/option.{Some}
-///
-/// let option = Some("One")
-///
-/// use some_value <- given_some_in(option, else_return: fn() { "None" })
-///
-/// // …handle Some value here…
-/// "Some value"
+/// val
 /// ```
 ///
 pub fn some(
-  in optn: Option(a),
+  in option: Option(a),
   else_return alternative: fn() -> b,
   return consequence: fn(a) -> b,
 ) -> b {
-  case optn {
+  case option {
     Some(val) -> consequence(val)
     None -> alternative()
   }
@@ -679,22 +490,24 @@ pub fn some(
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// import gleam/option.{None, Some}
 ///
 /// let options = [Some("One"), None]
 ///
-/// use _somes, _nones_count <- given.any_some(in: options, else_return: fn(_nones_count) { "All are None" })
+/// use _somes, _nones_count <- given.any_some(
+///   in: options,
+///   else_return: fn(_nones_count) { "Nothing at all." },
+/// )
 ///
-/// // …handle at least some None values here…
-/// "At least some are None"
+/// "😅 At least one Some!"
 /// ```
 ///
 pub fn any_some(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(Int) -> b,
   return consequence: fn(List(a), Int) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case somes {
     [] -> alternative(nones_count)
@@ -703,28 +516,30 @@ pub fn any_some(
 }
 
 /// Checks if all of the options are `Some` and runs the consequence - passing
-/// in the `Some` values - if they are, else runs the alternative passing in
+/// in the `Some` values - if they are, otherwise runs the alternative passing in
 /// the `Some` and a count of the `None` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// import gleam/option.{Some}
 ///
-/// let options = [Some("One"), None]
+/// let options = [Some("Treasure Chest"), Some("Nugget")]
 ///
-/// use _somes <- given.all_some(in: options, else_return: fn(_somes, _nones_count) { "Some are None" })
+/// use _somes <- given.all_some(
+///   in: options,
+///   else_return: fn(_somes, _nones_count) { "Nothing at all" },
+/// )
 ///
-/// // …handle all Some values here…
-/// "All are Some"
+/// "🏅 There is gold everywhere!"
 /// ```
 ///
 pub fn all_some(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a), Int) -> b,
   return consequence: fn(List(a)) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case nones_count {
     0 -> consequence(somes)
@@ -732,7 +547,7 @@ pub fn all_some(
   }
 }
 
-/// Checks if the option is `None` and runs the consequence if it is, else runs
+/// Checks if the option is `None` and runs the consequence if it is, otherwise runs
 /// the alternative.
 ///
 /// ## Examples
@@ -750,51 +565,53 @@ pub fn all_some(
 /// ```
 ///
 /// ```gleam
-/// import given.{none as given_none_in}
 /// import gleam/option.{None}
 ///
 /// let option = None
 ///
-/// use <- given_none_in(option, else_return: fn(some_value) { "Some value" })
-/// // …handle None here…
+/// use <- given.none(in: option, else_return: fn(_some_value) {
+///   "There is someone sleeping!"
+/// })
 ///
-/// "None"
+/// "🛏, aka None is in this bed!"
 /// ```
 ///
 pub fn none(
-  in optn: Option(a),
+  in option: Option(a),
   else_return alternative: fn(a) -> b,
   return consequence: fn() -> b,
 ) -> b {
-  case optn {
+  case option {
     None -> consequence()
     Some(val) -> alternative(val)
   }
 }
 
 /// Checks if any of the options are `None` and runs the consequence if they
-/// are, else runs the alternative passing in the `Some` values and the count
+/// are, otherwise runs the alternative passing in the `Some` values and the count
 /// of `None` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// import gleam/option.{None, Some}
 ///
 /// let options = [Some("One"), None]
 ///
-/// use <- given.any_none(in: options, else_return: fn(_somes) { "All are Some" })
+/// use _somes, _none_count <- given.any_none(
+///   in: options,
+///   else_return: fn(_somes) { "Only Somes here!" },
+/// )
 ///
-/// // …handle at least some None values here…
-/// "At least some are None"
+/// "🕳️, aka None, detected in the system at least once."
 /// ```
 ///
 pub fn any_none(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a)) -> b,
   return consequence: fn(List(a), Int) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case nones_count {
     0 -> alternative(somes)
@@ -803,27 +620,28 @@ pub fn any_none(
 }
 
 /// Checks if all of the options are `None` and runs the consequence if they
-/// are, else runs the alternative passing in the `Some` values.
+/// are, otherwise runs the alternative passing in the `Some` values.
 ///
 /// ## Examples
 ///
 /// ```gleam
-/// import given
+/// import gleam/option.{None}
 ///
-/// let options = [Some("One"), None]
+/// let options = [None, None]
 ///
-/// use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) { "Some are Some" })
+/// use <- given.all_none(in: options, else_return: fn(_somes, _nones_count) {
+///   "Someone tipped me :)!"
+/// })
 ///
-/// // …handle all None values here…
-/// "All are None"
+/// "🫙 There is nothing in the jar..."
 /// ```
 ///
 pub fn all_none(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a), Int) -> b,
   return consequence: fn() -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case somes {
     [] -> consequence()
