@@ -43,10 +43,6 @@ pub fn that(
   }
 }
 
-// TODO:
-// pub fn one()
-// pub fn n()
-
 /// Checks if any of the conditions are `True` and runs the consequence if any
 /// are, otherwise runs the alternative.
 ///
@@ -120,10 +116,6 @@ pub fn not(
     False -> alternative()
   }
 }
-
-// TODO:
-// pub fn one_not()
-// pub fn n_not()
 
 /// Checks if any of the conditions are `False` and runs the consequence if any
 /// are, otherwise runs the alternative.
@@ -490,10 +482,6 @@ pub fn some(
     None -> alternative()
   }
 }
-
-// TODO:
-// pub fn one_some()
-// pub fn n_some()
 
 /// Checks if any of the options are `Some` and runs the consequence - passing
 /// in the `Some` values and a count of the `None` values - if they are, else
