@@ -32,7 +32,7 @@ gleam add given@6
 argument order were unified**:
 
 **TO MAKE CERTAIN LOGIC IS NOT INVERTED BY ACCIDENT USE `else_return` and/or
-`return` ARGUMENT LABELS WHEN UPGRADING TO 6.0!**
+`return` ARGUMENT LABELS BEFORE UPGRADING TO 6.0!**
 
 - Following functions have their return and else_return argument order switched:
   - `given.that`
