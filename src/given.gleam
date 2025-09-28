@@ -11,9 +11,15 @@
 ////
 
 import given/internal/lib/optionx
+import gleam/dict.{type Dict}
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
+import gleam/string
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Bool                                                                     │
+// └───────────────────────────────────────────────────────────────────────────┘
 
 /// Checks if the condition is `True` and runs the consequence if it is, else
 /// runs the alternative.
@@ -175,6 +181,10 @@ pub fn all_not(
   }
 }
 
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Function                                                                 │
+// └───────────────────────────────────────────────────────────────────────────┘
+
 /// Checks if the condition function returns `True` and runs the consequence if
 /// it is, otherwise runs the alternative.
 ///
@@ -227,6 +237,10 @@ pub fn when_not(
   }
 }
 
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  List                                                                     │
+// └───────────────────────────────────────────────────────────────────────────┘
+
 /// Checks if the list is empty and runs the consequence if it is, otherwise runs
 /// the alternative.
 ///
@@ -277,6 +291,10 @@ pub fn non_empty(
   }
 }
 
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Result                                                                   │
+// └───────────────────────────────────────────────────────────────────────────┘
+
 /// Checks if the result is an `Ok` and runs the consequence if it is, else
 /// runs the alternative.
 ///
@@ -293,19 +311,15 @@ pub fn non_empty(
 /// ```
 ///
 pub fn ok(
-  in rslt: Result(a, e),
+  in result: Result(a, e),
   else_return alternative: fn(e) -> b,
   return consequence: fn(a) -> b,
 ) -> b {
-  case rslt {
+  case result {
     Ok(val) -> consequence(val)
     Error(err) -> alternative(err)
   }
 }
-
-// TODO:
-// pub fn one_ok()
-// pub fn n_ok()
 
 /// Checks if any of the results are `Ok` and runs the consequence -  passing in
 /// the `Ok` and `Error` values - if they are, otherwise runs the alternative passing
@@ -324,11 +338,11 @@ pub fn ok(
 /// ```
 ///
 pub fn any_ok(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(e)) -> b,
   return consequence: fn(List(a), List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case oks {
     [] -> alternative(errors)
@@ -353,11 +367,11 @@ pub fn any_ok(
 /// ```
 ///
 pub fn all_ok(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a), List(e)) -> b,
   return consequence: fn(List(a)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case errors {
     [] -> consequence(oks)
@@ -381,19 +395,15 @@ pub fn all_ok(
 /// ```
 ///
 pub fn error(
-  in rslt: Result(a, e),
+  in result: Result(a, e),
   else_return alternative: fn(a) -> b,
   return consequence: fn(e) -> b,
 ) -> b {
-  case rslt {
+  case result {
     Error(err) -> consequence(err)
     Ok(val) -> alternative(val)
   }
 }
-
-// TODO:
-// pub fn one_error()
-// pub fn n_error()
 
 /// Checks if any of the results are `Error` and runs the consequence - passing
 /// in the `Ok` and `Error` values - if they are, otherwise runs the alternative
@@ -412,11 +422,11 @@ pub fn error(
 /// ```
 ///
 pub fn any_error(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a)) -> b,
   return consequence: fn(List(a), List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case errors {
     [] -> alternative(oks)
@@ -441,17 +451,21 @@ pub fn any_error(
 /// ```
 ///
 pub fn all_error(
-  in rslts: List(Result(a, e)),
+  in results: List(Result(a, e)),
   else_return alternative: fn(List(a), List(e)) -> b,
   return consequence: fn(List(e)) -> b,
 ) -> b {
-  let #(oks, errors) = rslts |> result.partition
+  let #(oks, errors) = results |> result.partition
 
   case oks {
     [] -> consequence(errors)
     _non_zero_oks -> alternative(oks, errors)
   }
 }
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Option                                                                   │
+// └───────────────────────────────────────────────────────────────────────────┘
 
 /// Checks if the option is `Some` and runs the consequence if it is, otherwise runs
 /// the alternative.
@@ -469,11 +483,11 @@ pub fn all_error(
 /// ```
 ///
 pub fn some(
-  in optn: Option(a),
+  in option: Option(a),
   else_return alternative: fn() -> b,
   return consequence: fn(a) -> b,
 ) -> b {
-  case optn {
+  case option {
     Some(val) -> consequence(val)
     None -> alternative()
   }
@@ -503,11 +517,11 @@ pub fn some(
 /// ```
 ///
 pub fn any_some(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(Int) -> b,
   return consequence: fn(List(a), Int) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case somes {
     [] -> alternative(nones_count)
@@ -535,11 +549,11 @@ pub fn any_some(
 /// ```
 ///
 pub fn all_some(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a), Int) -> b,
   return consequence: fn(List(a)) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case nones_count {
     0 -> consequence(somes)
@@ -577,19 +591,15 @@ pub fn all_some(
 /// ```
 ///
 pub fn none(
-  in optn: Option(a),
+  in option: Option(a),
   else_return alternative: fn(a) -> b,
   return consequence: fn() -> b,
 ) -> b {
-  case optn {
+  case option {
     None -> consequence()
     Some(val) -> alternative(val)
   }
 }
-
-// TODO:
-// pub fn one_none()
-// pub fn n_none()
 
 /// Checks if any of the options are `None` and runs the consequence if they
 /// are, otherwise runs the alternative passing in the `Some` values and the count
@@ -611,11 +621,11 @@ pub fn none(
 /// ```
 ///
 pub fn any_none(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a)) -> b,
   return consequence: fn(List(a), Int) -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case nones_count {
     0 -> alternative(somes)
@@ -641,14 +651,849 @@ pub fn any_none(
 /// ```
 ///
 pub fn all_none(
-  in optns: List(Option(a)),
+  in options: List(Option(a)),
   else_return alternative: fn(List(a), Int) -> b,
   return consequence: fn() -> b,
 ) -> b {
-  let #(somes, nones_count) = optns |> optionx.partition
+  let #(somes, nones_count) = options |> optionx.partition
 
   case somes {
     [] -> consequence()
     _non_zero_somes -> alternative(somes, nones_count)
+  }
+}
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Integer                                                                  │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the first integer is less than the second and runs the consequence
+/// if it is, else runs the alternative.
+///
+/// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.less(5, for: i, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i < 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
+///
+pub fn less(
+  value value: Int,
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value < threshold {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first integer is less than or equal to the second and runs the
+/// consequence if it is, else runs the alternative.
+///
+/// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.less_than_or_equal(i, to: 5, else_return: alt_fun)
+/// use <- given.less_than_or_equal(i, to: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i < 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
+///
+pub fn less_than_or_equal(
+  value value: Int,
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value <= threshold {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first integer is equal to the second and runs the consequence
+/// if it is, else runs the alternative.
+///
+/// /// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.equal(i, to: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i == 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
+///
+pub fn equal(
+  value value: Int,
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value == threshold {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first integer is greater than or equal to the second and runs
+/// the consequence if it is, else runs the alternative.
+///
+/// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.greater_than_or_equal(i, to: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i >= 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
+///
+pub fn greater_than_or_equal(
+  value value: Int,
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value >= threshold {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first integer is greater than the second and runs the
+/// consequence if it is, else runs the alternative.
+///
+/// ⚠️ NOTICE: Instead of…
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.greater(than: i, for: 5, else_return: alt_fun)
+/// ```
+///
+/// …consider using this instead for `Int`s:
+///
+/// ```gleam
+/// let i = 4
+/// use <- given.that(i > 5, else_return: alt_fun)
+/// ```
+///
+/// This function exists merely for consistency.
+///
+pub fn greater(
+  value value: Int,
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value > threshold {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are less than the threshold and runs the
+/// consequence if they are, else runs the alternative.
+///
+pub fn all_less(
+  values values: List(Int),
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value < threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are less than or equal to the threshold
+/// and runs the consequence if they are, else runs the alternative.
+///
+pub fn all_less_than_or_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value <= threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are equal to the threshold and runs the
+/// consequence if they are, else runs the alternative.
+///
+pub fn all_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value == threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are not equal to the threshold and runs
+/// the consequence if they are, else runs the alternative.
+///
+pub fn all_not_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value != threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are greater than or equal to the
+/// threshold and runs the consequence if they are, else runs the alternative.
+///
+pub fn all_greater_than_or_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value >= threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all integers in the list are greater than the threshold and runs
+/// the consequence if they are, else runs the alternative.
+///
+pub fn all_greater(
+  values values: List(Int),
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value > threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is less than the threshold and runs the
+/// consequence if one is, else runs the alternative.
+///
+pub fn any_less(
+  values values: List(Int),
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value < threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is less than or equal to the threshold and
+/// runs the consequence if one is, else runs the alternative.
+///
+pub fn any_less_than_or_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value <= threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is equal to the threshold and runs the
+/// consequence if one is, else runs the alternative.
+///
+pub fn any_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value == threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is not equal to the threshold and runs the
+/// consequence if one is, else runs the alternative.
+///
+pub fn any_not_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value != threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is greater than or equal to the threshold
+/// and runs the consequence if one is, else runs the alternative.
+///
+pub fn any_greater_than_or_equal(
+  values values: List(Int),
+  to threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value >= threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any integer in the list is greater than the threshold and runs the
+/// consequence if one is, else runs the alternative.
+///
+pub fn any_greater(
+  values values: List(Int),
+  than threshold: Int,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value > threshold }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Float                                                                    │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the first float is less than the second within the given tolerance
+/// and runs the consequence if it is, else runs the alternative.
+///
+pub fn loosely_less(
+  value value: Float,
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value <. threshold -. tolerance {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first float is less than or equal to the second within the
+/// given tolerance and runs the consequence if it is, else runs the
+/// alternative.
+///
+pub fn loosely_less_than_or_equal(
+  value value: Float,
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value <=. threshold +. tolerance {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first float is equal to the second within the given tolerance
+/// and runs the consequence if it is, else runs the alternative.
+///
+pub fn loosely_equal(
+  value value: Float,
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value >=. threshold -. tolerance && value <=. threshold +. tolerance {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first float is greater than or equal to the second within the
+/// given tolerance and runs the consequence if it is, else runs the
+/// alternative.
+///
+pub fn loosely_greater_than_or_equal(
+  value value: Float,
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value >=. threshold -. tolerance {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the first float is greater than the second within the given
+/// tolerance and runs the consequence if it is, else runs the alternative.
+///
+pub fn loosely_greater(
+  value value: Float,
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case value >. threshold +. tolerance {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are less than the threshold within the
+/// given tolerance and runs the consequence if they are, else runs the
+/// alternative.
+///
+pub fn all_loosely_less(
+  values values: List(Float),
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value <. threshold -. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are less than or equal to the threshold
+/// within the given tolerance and runs the consequence if they are, else runs
+/// the alternative.
+///
+pub fn all_loosely_less_than_or_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value <=. threshold +. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are equal to the threshold within the given
+/// tolerance and runs the consequence if they are, else runs the alternative.
+///
+pub fn all_loosely_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case
+    values
+    |> list.all(fn(value) {
+      value >=. threshold -. tolerance && value <=. threshold +. tolerance
+    })
+  {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are not equal to the threshold within the
+/// given tolerance and runs the consequence if they are, else runs the
+/// alternative.
+///
+pub fn all_not_loosely_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case
+    values
+    |> list.all(fn(value) {
+      value <. threshold -. tolerance || value >. threshold +. tolerance
+    })
+  {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are greater than or equal to the threshold
+/// within the given tolerance and runs the consequence if they are, else runs
+/// the alternative.
+///
+pub fn all_loosely_greater_than_or_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value >=. threshold -. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all floats in the list are greater than the threshold within the
+/// given tolerance and runs the consequence if they are, else runs the
+/// alternative.
+///
+pub fn all_loosely_greater(
+  values values: List(Float),
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.all(fn(value) { value >. threshold +. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is less than the threshold within the given
+/// tolerance and runs the consequence if one is, else runs the alternative.
+///
+pub fn any_loosely_less(
+  values values: List(Float),
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value <. threshold -. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is less than or equal to the threshold
+/// within the given tolerance and runs the consequence if one is, else runs the
+/// alternative.
+///
+pub fn any_loosely_less_than_or_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value <=. threshold +. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is equal to the threshold within the given
+/// tolerance and runs the consequence if one is, else runs the alternative.
+///
+pub fn any_loosely_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case
+    values
+    |> list.any(fn(value) {
+      value >=. threshold -. tolerance && value <=. threshold +. tolerance
+    })
+  {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is not equal to the threshold within the
+/// given tolerance and runs the consequence if one is, else runs the
+/// alternative.
+///
+pub fn any_not_loosely_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case
+    values
+    |> list.any(fn(value) {
+      value <. threshold -. tolerance || value >. threshold +. tolerance
+    })
+  {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is greater than or equal to the threshold
+/// within the given tolerance and runs the consequence if one is, else runs the
+/// alternative.
+///
+pub fn any_loosely_greater_than_or_equal(
+  values values: List(Float),
+  to threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value >=. threshold -. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any float in the list is greater than the threshold within the
+/// given tolerance and runs the consequence if one is, else runs the
+/// alternative.
+///
+pub fn any_loosely_greater(
+  values values: List(Float),
+  than threshold: Float,
+  tolerating tolerance: Float,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case values |> list.any(fn(value) { value >. threshold +. tolerance }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the string is empty and runs the consequence if it is, else runs
+/// the alternative.
+///
+pub fn empty_string(
+  string string: String,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case string == "" {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  String                                                                   │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the string starts with the given substring and runs the
+/// consequence if it does, else runs the alternative.
+///
+pub fn starts_with(
+  string string: String,
+  prefix prefix: String,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case string.starts_with(string, prefix) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the string contains the given substring and runs the consequence
+/// if it does, else runs the alternative.
+///
+pub fn contains_string(
+  string string: String,
+  in in: String,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case string.contains(string, in) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the string ends with the given substring and runs the consequence
+/// if it does, else runs the alternative.
+///
+pub fn ends_with(
+  suffix suffix: String,
+  in string: String,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case string.ends_with(string, suffix) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all strings in the list start with the given prefix and runs the
+/// consequence if they do, else runs the alternative.
+///
+pub fn all_start_with(
+  prefix prefix: String,
+  in strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.all(fn(s) { string.starts_with(s, prefix) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any string in the list starts with the given prefix and runs the
+/// consequence if one does, else runs the alternative.
+///
+pub fn any_start_with(
+  prefix prefix: String,
+  in strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.any(fn(s) { string.starts_with(s, prefix) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all strings in the list end with the given suffix and runs the
+/// consequence if they do, else runs the alternative.
+///
+pub fn all_end_with(
+  suffix suffix: String,
+  strings strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.all(fn(s) { string.ends_with(s, suffix) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any string in the list ends with the given suffix and runs the
+/// consequence if one does, else runs the alternative.
+///
+pub fn any_end_with(
+  suffix suffix: String,
+  strings strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.any(fn(s) { string.ends_with(s, suffix) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if all strings in the list contain the given substring and runs the
+/// consequence if they do, else runs the alternative.
+///
+pub fn all_contain(
+  string sub_string: String,
+  in strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.all(fn(s) { string.contains(s, sub_string) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if any string in the list contains the given substring and runs the
+/// consequence if one does, else runs the alternative.
+///
+pub fn any_contain(
+  string sub_string: String,
+  in strings: List(String),
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case strings |> list.any(fn(s) { string.contains(s, sub_string) }) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// │  Dict                                                                     │
+// └───────────────────────────────────────────────────────────────────────────┘
+
+/// Checks if the dictionary has the given key and runs the consequence if it
+/// does, else runs the alternative.
+///
+pub fn has_key(
+  dict dict: Dict(key, value),
+  key key,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case dict.has_key(dict, key) {
+    True -> consequence()
+    False -> alternative()
+  }
+}
+
+/// Checks if the dictionary has the given key-value pair and runs the
+/// consequence if it does, else runs the alternative.
+///
+pub fn has_key_value(
+  dict dict: Dict(key, value),
+  key key,
+  value value,
+  else_return alternative: fn() -> b,
+  return consequence: fn() -> b,
+) -> b {
+  case dict.get(dict, key) {
+    Ok(dict_value) if dict_value == value -> consequence()
+    _ -> alternative()
   }
 }
