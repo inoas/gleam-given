@@ -44,26 +44,24 @@ argument order were unified**:
 
 ## Usage
 
+All the functions contain labeled `else_return` and `return` callbacks.
+
+Depending on readability where given is used one should use `return` or
+`else_return` labels and positive or negative conditions.
+
+The one not specified will become the happy path (or expected) path you
+trot along as part of the `use` callback *body*.
+
+The function form and argument order is always:
+`condition_name(...data, else_return, return)`
+
+Thus if you were to omit labels the positive case behind the `return` label
+becomes the `use`-body.
+
+Also see:
+[Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/).
 
 ```gleam
-//// All the functions contain labeled `else_return` and `return` callbacks.
-////
-//// Depending on readability where given is used one should use `return` or
-//// `else_return` labels and positive or negative conditions.
-////
-//// The one not specified will become the happy path (or expected) path you
-//// trot along as part of the `use` callback *body*.
-////
-//// The function form and argument order is always:
-////
-//// `condition_name(...data, else_return, return)`
-////
-//// Thus if you were to omit labels the positive case behind the `return` label
-//// becomes the `use`-body.
-////
-//// Also see:
-//// [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/).
-
 import given
 
 // Can use `return` labels:
