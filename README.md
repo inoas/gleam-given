@@ -48,7 +48,6 @@ All the functions contain labeled `else_return` and `return` callbacks.
 
 Depending on readability where given is used one should use `return` or
 `else_return` labels and positive or negative conditions.
-
 The one not specified will become the happy path (or expected) path you
 trot along as part of the `use` callback *body*.
 
