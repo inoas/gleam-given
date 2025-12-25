@@ -28,20 +28,6 @@
 gleam add given@6
 ```
 
-**NOTICE: 6.0 contains a breaking change where `return` and `else_return`
-argument order were unified**:
-
-**TO MAKE CERTAIN LOGIC IS NOT INVERTED BY ACCIDENT USE `else_return` and/or
-`return` ARGUMENT LABELS BEFORE UPGRADING TO 6.0!**
-
-- Following functions have their return and else_return argument order switched:
-  - `given.that`
-  - `given.any`
-  - `given.all`
-  - `given.not`
-  - `given.any_not`
-  - `given.all_not`
-
 ## Usage
 
 All the functions contain labeled `else_return` and `return` callbacks.
