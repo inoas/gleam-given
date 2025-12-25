@@ -237,13 +237,13 @@ pub fn when_not(
 /// ## Examples
 ///
 /// ```gleam
-// let list = []
-//
-// use <- given.empty(list, else_return: fn() {
-//   "Full as if you ate two large vegan 🍔!"
-// })
-//
-// "🛸 Empty like vast space!"
+/// let list = []
+///
+/// use <- given.empty(list, else_return: fn() {
+///   "Full as if you ate two large vegan 🍔!"
+/// })
+///
+/// "🛸 Empty like vast space!"
 /// ```
 ///
 pub fn empty(
