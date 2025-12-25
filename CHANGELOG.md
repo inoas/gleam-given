@@ -5,7 +5,12 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!--## [Unreleased]-->
-## [6.0.0] - 2025-09-??
+
+## [6.0.1] - 2025-12-25
+
+- Fix code documentation thanks to Gleam 1.14 warning.
+
+## [6.0.0] - 2025-09-28
 
 **NOTICE: 6.0 contains a breaking change where `return` and `else_return`
 argument order were unified**:
