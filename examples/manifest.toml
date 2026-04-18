@@ -2,10 +2,10 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "given", version = "5.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = ".." },
-  { name = "gleam_stdlib", version = "0.61.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "3DC407D6EDA98FCE089150C11F3AD892B6F4C3CA77C87A97BAE8D5AB5E41F331" },
+  { name = "given", version = "6.0.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = ".." },
+  { name = "gleam_stdlib", version = "1.0.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "960090C2FB391784BB34267B099DC9315CC1B1F6013E7415BC763CEF1905D7D3" },
 ]
 
 [requirements]
 given = { path = "../" }
-gleam_stdlib = { version = ">= 0.61.0 and < 2.0.0" }
+gleam_stdlib = { version = ">= 1.0.0 and < 2.0.0" }

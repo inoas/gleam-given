@@ -4,7 +4,7 @@ description = "👇 Ergonomic guards aka early returns for Bool, Result, Option,
 licences = ["MPL-2.0"]
 repository = { type = "github", user = "inoas", repo = "gleam-given" }
 
-gleam = ">= 1.13.0"
+gleam = ">= 1.15.4"
 
 [documentation]
 pages = [
@@ -12,7 +12,7 @@ pages = [
 ]
 
 [dependencies]
-gleam_stdlib = ">= 0.61.0 and < 2.0.0"
+gleam_stdlib = ">= 1.0.0 and < 2.0.0"
 
 [dev-dependencies]
-gleeunit = ">= 1.6.0 and < 2.0.0"
+gleeunit = ">= 1.10.0 and < 2.0.0"
