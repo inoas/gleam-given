@@ -150,14 +150,14 @@ pub fn any_not(
 /// ## Examples
 ///
 /// ```gleam
-// let is_android = False
-// let is_synthetic = False
-//
-// use <- given.all_not([is_android, is_synthetic], else_return: fn() {
-//   "I am a Cylon!"
-// })
-//
-// "🪦 Obsolete model detected."
+/// let is_android = False
+/// let is_synthetic = False
+///
+/// use <- given.all_not([is_android, is_synthetic], else_return: fn() {
+///   "I am a Cylon!"
+/// })
+///
+/// "🪦 Obsolete model detected."
 /// ```
 ///
 pub fn all_not(
