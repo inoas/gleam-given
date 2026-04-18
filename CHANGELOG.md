@@ -6,9 +6,13 @@ and this project adheres to
 
 <!--## [Unreleased]-->
 
-## [6.0.2] - 2026-94-18
+## [6.0.2] - 2026-04-18
 
-- Minor fixes
+- Minor fixes.
+
+## [6.0.1] - 2025-12-25
+
+- Fix code documentation thanks to Gleam 1.14 warning.
 
 ## [6.0.0] - 2025-09-28
 
